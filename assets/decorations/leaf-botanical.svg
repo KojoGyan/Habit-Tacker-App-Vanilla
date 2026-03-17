@@ -1,0 +1,12 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M100 20C100 20 130 40 145 70C155 90 160 115 155 140C150 160 135 175 115 182C105 185 95 185 85 182C65 175 50 160 45 140C40 115 45 90 55 70C70 40 100 20 100 20Z" fill="hsl(75,32%,55%)" />
+  <path d="M100 25L100 180" stroke="hsl(75,32%,45%)" stroke-width="2" stroke-linecap="round" />
+  <path d="M100 50C100 50 115 60 122 70" stroke="hsl(75,32%,45%)" stroke-width="1.5" stroke-linecap="round" />
+  <path d="M100 50C100 50 85 60 78 70" stroke="hsl(75,32%,45%)" stroke-width="1.5" stroke-linecap="round" />
+  <path d="M100 80C100 80 120 88 128 98" stroke="hsl(75,32%,45%)" stroke-width="1.5" stroke-linecap="round" />
+  <path d="M100 80C100 80 80 88 72 98" stroke="hsl(75,32%,45%)" stroke-width="1.5" stroke-linecap="round" />
+  <path d="M100 110C100 110 122 115 130 125" stroke="hsl(75,32%,45%)" stroke-width="1.5" stroke-linecap="round" />
+  <path d="M100 110C100 110 78 115 70 125" stroke="hsl(75,32%,45%)" stroke-width="1.5" stroke-linecap="round" />
+  <path d="M100 140C100 140 115 142 120 148" stroke="hsl(75,32%,45%)" stroke-width="1.5" stroke-linecap="round" />
+  <path d="M100 140C100 140 85 142 80 148" stroke="hsl(75,32%,45%)" stroke-width="1.5" stroke-linecap="round" />
+</svg>

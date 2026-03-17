@@ -1,0 +1,285 @@
+{
+  "source": "lucide-static",
+  "version": "0.542.0",
+  "generatedAt": "2026-03-15T12:56:37.189Z",
+  "totalRequested": 37,
+  "icons": [
+    {
+      "importName": "ArrowLeft",
+      "sourceSlug": "arrow-left",
+      "file": "assets/icons/arrow-left.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/arrow-left.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "ArrowRight",
+      "sourceSlug": "arrow-right",
+      "file": "assets/icons/arrow-right.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/arrow-right.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "BarChart3",
+      "sourceSlug": "bar-chart-3",
+      "file": "assets/icons/bar-chart-3.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/bar-chart-3.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Calendar",
+      "sourceSlug": "calendar",
+      "file": "assets/icons/calendar.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/calendar.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "CheckCircle2",
+      "sourceSlug": "check-circle-2",
+      "file": "assets/icons/check-circle-2.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/check-circle-2.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "CheckIcon",
+      "sourceSlug": "check",
+      "file": "assets/icons/check-icon.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/check.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "ChevronDownIcon",
+      "sourceSlug": "chevron-down",
+      "file": "assets/icons/chevron-down-icon.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/chevron-down.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "ChevronLeft",
+      "sourceSlug": "chevron-left",
+      "file": "assets/icons/chevron-left.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/chevron-left.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "ChevronLeftIcon",
+      "sourceSlug": "chevron-left",
+      "file": "assets/icons/chevron-left-icon.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/chevron-left.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "ChevronRight",
+      "sourceSlug": "chevron-right",
+      "file": "assets/icons/chevron-right.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/chevron-right.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "ChevronRightIcon",
+      "sourceSlug": "chevron-right",
+      "file": "assets/icons/chevron-right-icon.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/chevron-right.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "ChevronUpIcon",
+      "sourceSlug": "chevron-up",
+      "file": "assets/icons/chevron-up-icon.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/chevron-up.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "CircleIcon",
+      "sourceSlug": "circle",
+      "file": "assets/icons/circle-icon.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/circle.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Clock",
+      "sourceSlug": "clock",
+      "file": "assets/icons/clock.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/clock.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "ExternalLink",
+      "sourceSlug": "external-link",
+      "file": "assets/icons/external-link.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/external-link.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Flame",
+      "sourceSlug": "flame",
+      "file": "assets/icons/flame.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/flame.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "GripVerticalIcon",
+      "sourceSlug": "grip-vertical",
+      "file": "assets/icons/grip-vertical-icon.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/grip-vertical.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Home",
+      "sourceSlug": "home",
+      "file": "assets/icons/home.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/home.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Inbox",
+      "sourceSlug": "inbox",
+      "file": "assets/icons/inbox.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/inbox.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Info",
+      "sourceSlug": "info",
+      "file": "assets/icons/info.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/info.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Infinity",
+      "sourceSlug": "infinity",
+      "file": "assets/icons/infinity.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/infinity.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "ListChecks",
+      "sourceSlug": "list-checks",
+      "file": "assets/icons/list-checks.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/list-checks.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Moon",
+      "sourceSlug": "moon",
+      "file": "assets/icons/moon.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/moon.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "MoreHorizontal",
+      "sourceSlug": "more-horizontal",
+      "file": "assets/icons/more-horizontal.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/more-horizontal.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "MoreHorizontalIcon",
+      "sourceSlug": "more-horizontal",
+      "file": "assets/icons/more-horizontal-icon.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/more-horizontal.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "MinusIcon",
+      "sourceSlug": "minus",
+      "file": "assets/icons/minus-icon.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/minus.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "PanelLeftIcon",
+      "sourceSlug": "panel-left",
+      "file": "assets/icons/panel-left-icon.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/panel-left.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Pencil",
+      "sourceSlug": "pencil",
+      "file": "assets/icons/pencil.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/pencil.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Plus",
+      "sourceSlug": "plus",
+      "file": "assets/icons/plus.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/plus.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Search",
+      "sourceSlug": "search",
+      "file": "assets/icons/search.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/search.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "SearchIcon",
+      "sourceSlug": "search",
+      "file": "assets/icons/search-icon.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/search.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Sun",
+      "sourceSlug": "sun",
+      "file": "assets/icons/sun.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/sun.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Trash2",
+      "sourceSlug": "trash-2",
+      "file": "assets/icons/trash-2.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/trash-2.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "TrendingUp",
+      "sourceSlug": "trending-up",
+      "file": "assets/icons/trending-up.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/trending-up.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "Trophy",
+      "sourceSlug": "trophy",
+      "file": "assets/icons/trophy.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/trophy.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "X",
+      "sourceSlug": "x",
+      "file": "assets/icons/x.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/x.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "XIcon",
+      "sourceSlug": "x",
+      "file": "assets/icons/x-icon.svg",
+      "url": "https://unpkg.com/lucide-static@0.542.0/icons/x.svg",
+      "status": "ok"
+    },
+    {
+      "importName": "checkmark",
+      "sourceSlug": "checkmark",
+      "file": "assets/icons/checkmark.svg",
+      "url": null,
+      "source": "custom",
+      "status": "ok"
+    },
+    {
+      "importName": "daily-score-progress",
+      "sourceSlug": "daily-score-progress",
+      "file": "assets/icons/daily-score-progress.svg",
+      "url": null,
+      "source": "custom",
+      "status": "ok"
+    }
+  ],
+  "totalDownloaded": 39,
+  "totalFailed": 0
+}

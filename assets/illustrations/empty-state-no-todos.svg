@@ -1,0 +1,13 @@
+<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="70" y="90" width="100" height="80" rx="4" stroke="hsl(30, 53%, 64%)" stroke-width="2" fill="hsl(51, 95%, 84%)" fill-opacity="0.3" />
+  <line x1="85" y1="110" x2="155" y2="110" stroke="hsl(75, 32%, 60%)" stroke-width="1.5" opacity="0.3" />
+  <line x1="85" y1="125" x2="155" y2="125" stroke="hsl(75, 32%, 60%)" stroke-width="1.5" opacity="0.3" />
+  <line x1="85" y1="140" x2="155" y2="140" stroke="hsl(75, 32%, 60%)" stroke-width="1.5" opacity="0.3" />
+  <line x1="85" y1="155" x2="155" y2="155" stroke="hsl(75, 32%, 60%)" stroke-width="1.5" opacity="0.3" />
+  <rect x="140" y="130" width="60" height="12" rx="2" fill="hsl(43, 82%, 80%)" transform="rotate(35 170 136)" />
+  <path d="M 125 165 L 135 155 L 132 152 Z" fill="hsl(30, 53%, 64%)" />
+  <rect x="178" y="95" width="8" height="12" rx="2" fill="hsl(30, 53%, 64%)" transform="rotate(35 182 101)" />
+  <path d="M 168 92 Q 170 85 172 80" stroke="hsl(75, 32%, 60%)" stroke-width="1.5" stroke-linecap="round" fill="none" />
+  <ellipse cx="167" cy="84" rx="4" ry="6" fill="hsl(67, 51%, 76%)" transform="rotate(-20 167 84)" />
+  <ellipse cx="174" cy="82" rx="4" ry="6" fill="hsl(75, 32%, 60%)" transform="rotate(15 174 82)" />
+</svg>
