@@ -107,3 +107,55 @@ Added a compact style-guide and token scaffold for the vanilla rebuild.
 3. Replace `lucide-react` usages in migrated vanilla views with `assets/icons` references.
 4. Decide whether the dynamic DailyScoreCard progress indicator will stay SVG-driven or move fully to HTML and CSS.
 5. Attach `styles/core-tokens.css` to the first vanilla HTML entry point when page markup starts.
+
+## Phase 1 HTML Shell and Fragments
+
+Implemented the first-pass HTML structure for hash-based SPA behavior with a persistent shell and content-only page fragments.
+
+### Files Added
+
+1. `index.html`
+2. `pages/home.html`
+3. `pages/manage.html`
+4. `pages/statistics.html`
+5. `docs/route-contract.md`
+
+### What Was Implemented
+
+1. Persistent shell in `index.html` with sidebar, mobile header/nav placeholders, and a single page mount target at `#page-view-mount`.
+2. Content-only fragments in `pages/*.html` that do not duplicate shell markup.
+3. Reserved modal mount target (`#modal-root`) without modal implementations, as agreed for phase 1.
+4. Hash state-map contract documented for phase 2 router wiring.
+
+### Notes
+
+1. This phase is HTML-only scaffold work; fragment loading and hash synchronization are intentionally deferred to JavaScript implementation in phase 2.
+2. Empty and unknown hash behavior is specified in `docs/route-contract.md` as redirect to `#page=home`.
+
+## Phase 2 Hash Router and Modal Wiring
+
+Implemented hash-based page switching and modal routing in vanilla JavaScript.
+
+### Files Added
+
+1. `js/app.js`
+2. `styles/app-shell.css`
+3. `modals/welcome.html`
+4. `modals/quick-add.html`
+5. `modals/stats-preview.html`
+
+### Files Updated
+
+1. `index.html` (loads shell stylesheet and JS module)
+2. `docs/route-contract.md` (modal routing status updated)
+
+### Runtime Behavior Implemented
+
+1. Hash state parsing with state-map format (`#page=...&modal=...`).
+2. Default and unknown route correction to `#page=home`.
+3. Dynamic fragment injection into `#page-view-mount` for home, manage, and statistics pages.
+4. Active navigation synchronization via `aria-current` and active class.
+5. Modal fragment injection into `#modal-root` for `welcome`, `quick-add`, and `stats-preview` keys.
+6. Modal close behavior through close buttons, backdrop click, and Escape key.
+7. Light and dark theme toggle persistence with localStorage.
+8. Responsive shell visibility logic for desktop and mobile wrappers.

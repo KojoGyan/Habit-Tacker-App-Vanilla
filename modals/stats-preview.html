@@ -1,0 +1,70 @@
+<section class="fixed inset-0 flex items-center justify-center z-50 p-4" aria-hidden="false">
+  <div class="modal-backdrop" data-modal-backdrop="true"></div>
+
+  <div
+    class="modal-card bg-popover rounded-2xl shadow-xl max-w-[680px] w-full max-h-[90vh] overflow-y-auto relative"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="stats-preview-title"
+  >
+    <div class="flex items-center justify-between p-6 border-b border-border">
+      <div class="flex items-center gap-3">
+        <h2 id="stats-preview-title" class="font-display text-2xl">Your Progress</h2>
+        <a href="#page=statistics" class="text-muted-foreground hover:text-foreground transition-colors" data-modal-close aria-label="Go to full statistics">
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+      <button
+        type="button"
+        class="modal-close text-muted-foreground hover:text-foreground transition-colors"
+        data-modal-close
+        aria-label="Close statistics preview"
+      >
+        <span aria-hidden="true">X</span>
+      </button>
+    </div>
+
+    <div class="p-6 border-b border-border">
+      <div class="flex gap-2 flex-wrap" role="tablist" aria-label="Time ranges">
+        <button type="button" role="tab" data-stats-range="weekly" aria-selected="true" class="px-4 py-2 rounded-full font-body text-sm transition-colors capitalize bg-primary text-primary-foreground">Weekly</button>
+        <button type="button" role="tab" data-stats-range="monthly" aria-selected="false" class="px-4 py-2 rounded-full font-body text-sm transition-colors capitalize bg-secondary/30 text-foreground hover:bg-secondary/50">Monthly</button>
+        <button type="button" role="tab" data-stats-range="yearly" aria-selected="false" class="px-4 py-2 rounded-full font-body text-sm transition-colors capitalize bg-secondary/30 text-foreground hover:bg-secondary/50">Yearly</button>
+        <button type="button" role="tab" data-stats-range="all" aria-selected="false" class="px-4 py-2 rounded-full font-body text-sm transition-colors capitalize bg-secondary/30 text-foreground hover:bg-secondary/50">All Time</button>
+      </div>
+    </div>
+
+    <div class="p-6 space-y-6">
+      <div class="grid grid-cols-3 gap-4" data-stats-modal-summary-grid>
+        <article class="bg-card border border-border rounded-xl p-4">
+          <div class="text-sm text-muted-foreground font-body mb-1">Average Score</div>
+          <div class="font-data text-3xl font-bold text-accent">--%</div>
+        </article>
+
+        <article class="bg-card border border-border rounded-xl p-4">
+          <div class="text-sm text-muted-foreground font-body mb-1">Current Streak</div>
+          <div class="font-data text-3xl font-bold text-accent">--</div>
+          <div class="text-xs text-muted-foreground font-body">days</div>
+        </article>
+
+        <article class="bg-card border border-border rounded-xl p-4">
+          <div class="text-sm text-muted-foreground font-body mb-1">Best Streak</div>
+          <div class="font-data text-3xl font-bold text-accent">--</div>
+          <div class="text-xs text-muted-foreground font-body">days</div>
+        </article>
+      </div>
+
+      <div>
+        <h3 class="font-display text-lg mb-4" data-stats-performance-title>Performance - Weekly</h3>
+        <div class="bg-card border border-border rounded-xl p-4" data-stats-modal-chart>
+          <p data-stats-chart-copy>Chart placeholder region matching the original weekly preview layout.</p>
+        </div>
+      </div>
+
+      <a href="#page=statistics" class="flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors font-body" data-modal-close>
+        View Full Statistics
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+</section>

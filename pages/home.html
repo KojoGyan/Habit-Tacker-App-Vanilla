@@ -1,0 +1,65 @@
+<section id="home-view" data-page-view="home" aria-labelledby="home-title">
+  <header class="page-header">
+    <h1 id="home-title">Good morning, User</h1>
+    <p data-home-date>Home dashboard placeholder. Greeting and date become dynamic in phase 2.</p>
+  </header>
+
+  <div class="home-layout" data-home-layout>
+    <section aria-labelledby="home-dashboard-title" class="home-dashboard">
+      <h2 id="home-dashboard-title" class="sr-only">Dashboard</h2>
+
+      <div data-home-score-grid>
+        <article data-card="daily-score" data-open-modal="stats-preview" role="button" tabindex="0" aria-label="Open statistics preview from daily score">
+          <h3>Daily Score</h3>
+          <p data-placeholder="daily-score-value">--%</p>
+          <p class="muted-copy">Click card to preview stats.</p>
+        </article>
+
+        <article data-card="streak-score" data-open-modal="stats-preview" role="button" tabindex="0" aria-label="Open statistics preview from streak card">
+          <h3>Streak</h3>
+          <p data-placeholder="streak-value">-- days</p>
+          <p class="muted-copy">Click card to preview stats.</p>
+        </article>
+      </div>
+
+      <section aria-labelledby="home-weekly-chart-title">
+        <h3 id="home-weekly-chart-title">Weekly Progress</h3>
+        <article data-placeholder="weekly-chart" data-open-modal="stats-preview" role="button" tabindex="0" aria-label="Open statistics preview from weekly progress">
+          <p>Chart region placeholder.</p>
+          <p class="muted-copy">Tap to open stats preview.</p>
+        </article>
+      </section>
+    </section>
+
+    <section aria-labelledby="home-trackers-title" class="home-trackers">
+      <h2 id="home-trackers-title">Trackers</h2>
+      <div data-home-trackers-grid>
+        <article data-tracker="habits">
+          <h3>Habits</h3>
+          <p>Habit list preview placeholder.</p>
+          <button type="button" data-open-modal="quick-add" data-quick-add-tab="habit">Add Habit</button>
+        </article>
+
+        <article data-tracker="todos">
+          <h3>Todos</h3>
+          <p>Todo list preview placeholder.</p>
+          <button type="button" data-open-modal="quick-add" data-quick-add-tab="todo">Add Todo</button>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <section class="mobile-actions" aria-label="Home quick actions">
+    <button type="button" data-open-modal="quick-add" data-quick-add-tab="habit">Quick Add</button>
+  </section>
+
+  <section class="mobile-actions" aria-label="Home add todo action">
+    <button type="button" data-open-modal="quick-add" data-quick-add-tab="todo">Quick Add Todo</button>
+  </section>
+
+  <section class="dev-note" aria-label="Implementation note">
+    <p>
+      Placeholder note: Home cards and trackers match structure of the source dashboard. Data rendering will be added later.
+    </p>
+  </section>
+</section>
