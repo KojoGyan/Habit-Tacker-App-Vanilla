@@ -10,43 +10,43 @@
 <body>
   <a href="#page-content" class="skip-link">Skip to main content</a>
 
-  <div id="app-root" data-app-shell>
-    <header id="mobile-header" data-shell-mobile-header aria-label="Mobile header">
-      <div data-logo-group>
+  <div id="app-root" data-app-shell class="app-shell">
+    <header id="mobile-header" data-shell-mobile-header class="app-mobile-header app-shell__mobile-header" aria-label="Mobile header">
+      <div data-logo-group class="app-mobile-header__brand">
         <img src="./assets/brand/sproutly-logo.svg" alt="Sproutly" width="120" height="32" />
       </div>
-      <button type="button" data-theme-toggle aria-label="Toggle theme">Theme</button>
+      <button type="button" data-theme-toggle class="app-mobile-header__theme-toggle" aria-label="Toggle theme">Theme</button>
     </header>
 
-    <div id="app-shell" tabindex="0" data-shell-wrapper>
-      <aside id="app-sidebar" data-shell-sidebar aria-label="Primary navigation">
-        <div data-sidebar-brand>
+    <div id="app-shell" tabindex="0" data-shell-wrapper class="app-shell__layout">
+      <aside id="app-sidebar" data-shell-sidebar class="app-sidebar app-shell__sidebar" aria-label="Primary navigation">
+        <div data-sidebar-brand class="app-sidebar__brand">
           <img src="./assets/brand/sproutly-logo.svg" alt="Sproutly logo" width="140" height="40" />
         </div>
 
-        <nav aria-label="App pages">
-          <ul>
-            <li>
-              <a href="#page=home" data-nav-page="home" aria-current="page">Home</a>
+        <nav class="app-sidebar__nav" aria-label="App pages">
+          <ul class="app-sidebar__nav-list">
+            <li class="app-sidebar__nav-item">
+              <a href="#page=home" data-nav-page="home" class="app-sidebar__nav-link" aria-current="page">Home</a>
             </li>
-            <li>
-              <a href="#page=manage" data-nav-page="manage">Manage Habits</a>
+            <li class="app-sidebar__nav-item">
+              <a href="#page=manage" data-nav-page="manage" class="app-sidebar__nav-link">Manage Habits</a>
             </li>
-            <li>
-              <a href="#page=statistics" data-nav-page="statistics">Statistics</a>
+            <li class="app-sidebar__nav-item">
+              <a href="#page=statistics" data-nav-page="statistics" class="app-sidebar__nav-link">Statistics</a>
             </li>
           </ul>
         </nav>
 
-        <div data-sidebar-controls>
-          <button type="button" data-theme-toggle aria-label="Toggle theme">Theme</button>
+        <div data-sidebar-controls class="app-sidebar__controls">
+          <button type="button" data-theme-toggle class="app-sidebar__theme-toggle" aria-label="Toggle theme">Theme</button>
         </div>
       </aside>
 
-      <div id="page-shell" data-page-shell>
-        <main id="page-content" data-page-content>
-          <div id="page-view-mount" data-page-mount data-default-page="home" data-hash-contract="state-map">
-            <section id="phase1-placeholder" aria-labelledby="phase1-title">
+      <div id="page-shell" data-page-shell class="page-shell app-shell__page-shell">
+        <main id="page-content" data-page-content class="page-shell__content app-shell__page-content">
+          <div id="page-view-mount" data-page-mount class="page-shell__view-mount app-shell__page-mount" data-default-page="home" data-hash-contract="state-map">
+            <section id="phase1-placeholder" class="page-shell__placeholder" aria-labelledby="phase1-title">
               <h1 id="phase1-title">Sproutly Shell Ready</h1>
               <p>Page fragments are defined in ./pages and will be injected by hash router JavaScript in phase 2.</p>
               <p>Expected default hash: #page=home</p>
@@ -56,15 +56,15 @@
       </div>
     </div>
 
-    <nav id="mobile-nav" data-shell-mobile-nav aria-label="Mobile app pages">
-      <ul>
-        <li><a href="#page=home" data-nav-page="home" aria-current="page">Home</a></li>
-        <li><a href="#page=manage" data-nav-page="manage">Manage</a></li>
-        <li><a href="#page=statistics" data-nav-page="statistics">Stats</a></li>
+    <nav id="mobile-nav" data-shell-mobile-nav class="app-mobile-nav app-shell__mobile-nav" aria-label="Mobile app pages">
+      <ul class="app-mobile-nav__list">
+        <li class="app-mobile-nav__item"><a href="#page=home" data-nav-page="home" class="app-mobile-nav__link" aria-current="page">Home</a></li>
+        <li class="app-mobile-nav__item"><a href="#page=manage" data-nav-page="manage" class="app-mobile-nav__link">Manage</a></li>
+        <li class="app-mobile-nav__item"><a href="#page=statistics" data-nav-page="statistics" class="app-mobile-nav__link">Stats</a></li>
       </ul>
     </nav>
 
-    <div id="modal-root" data-modal-root aria-live="polite" aria-label="Modal container"></div>
+    <div id="modal-root" data-modal-root class="modal-root app-shell__modal-root" aria-live="polite" aria-label="Modal container"></div>
   </div>
 
   <script type="module" src="./js/app.js"></script>

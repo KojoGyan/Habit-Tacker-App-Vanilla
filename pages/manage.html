@@ -1,63 +1,67 @@
-<section id="manage-view" data-page-view="manage" aria-labelledby="manage-title">
-  <header class="page-header">
-    <h1 id="manage-title">Manage and Organise</h1>
-    <p>Manage habits and todos from one workspace.</p>
+<section id="manage-view" data-page-view="manage" class="page-view manage-page" aria-labelledby="manage-title">
+  <header class="page-header manage-page__header">
+    <h1 id="manage-title" class="page-header__title">Manage and Organise</h1>
+    <p class="page-header__subtitle">Manage habits and todos from one workspace.</p>
   </header>
 
-  <section aria-labelledby="manage-mode-title">
+  <section aria-labelledby="manage-mode-title" class="manage-page__mode-section">
     <h2 id="manage-mode-title">View Mode</h2>
-    <div role="tablist" aria-label="Manage modes" data-manage-mode-tabs>
-      <button type="button" role="tab" aria-selected="true" data-manage-mode="habits">Habits</button>
-      <button type="button" role="tab" aria-selected="false" data-manage-mode="todos">Todos</button>
+    <div role="tablist" aria-label="Manage modes" class="segmented-control manage-page__mode-tabs" data-manage-mode-tabs>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--mode" aria-selected="true" data-manage-mode="habits">Habits</button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--mode" aria-selected="false" data-manage-mode="todos">Todos</button>
     </div>
   </section>
 
-  <section aria-labelledby="manage-filter-title" data-manage-todo-only hidden>
+  <section aria-labelledby="manage-filter-title" class="manage-page__filter-section" data-manage-todo-only hidden>
     <h2 id="manage-filter-title">Filters and Search</h2>
-    <div data-manage-filters role="tablist" aria-label="Todo filters">
-      <button type="button" role="tab" aria-selected="true" data-todo-filter="inbox">Inbox</button>
-      <button type="button" role="tab" aria-selected="false" data-todo-filter="all">All</button>
-      <button type="button" role="tab" aria-selected="false" data-todo-filter="today">Due Today</button>
-      <button type="button" role="tab" aria-selected="false" data-todo-filter="upcoming">Upcoming</button>
-      <button type="button" role="tab" aria-selected="false" data-todo-filter="overdue">Overdue</button>
-      <button type="button" role="tab" aria-selected="false" data-todo-filter="completed">Completed</button>
+    <div data-manage-filters role="tablist" class="segmented-control segmented-control--wrap manage-page__filter-tabs" aria-label="Todo filters">
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="true" data-todo-filter="inbox">Inbox</button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="all">All</button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="today">Due Today</button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="upcoming">Upcoming</button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="overdue">Overdue</button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="completed">Completed</button>
     </div>
-    <form data-manage-search-form="todo" class="manage-search-form">
-      <label for="manage-todo-search">Search Todos</label>
-      <input id="manage-todo-search" name="searchTodos" type="search" placeholder="Search todos..." />
-      <button type="submit">Search Todo</button>
+    <form data-manage-search-form="todo" class="search-form manage-search-form manage-page__search-form">
+      <div class="form-field">
+        <label for="manage-todo-search" class="form-field__label">Search Todos</label>
+        <input id="manage-todo-search" name="searchTodos" type="search" class="form-field__input" placeholder="Search todos..." />
+      </div>
+      <button type="submit" class="search-form__submit">Search Todo</button>
     </form>
-    <p data-manage-search-feedback="todo" class="muted-copy" hidden></p>
+    <p data-manage-search-feedback="todo" class="muted-copy search-form__feedback" hidden></p>
   </section>
 
-  <section aria-labelledby="manage-habits-title" data-manage-section="habits">
+  <section aria-labelledby="manage-habits-title" class="manage-page__section manage-page__section--habits" data-manage-section="habits">
     <h2 id="manage-habits-title">Habits</h2>
-    <form data-manage-search-form="habit" class="manage-search-form">
-      <label for="manage-habit-search">Search Habits</label>
-      <input id="manage-habit-search" name="searchHabits" type="search" placeholder="Search habits..." />
-      <button type="submit">Search Habit</button>
+    <form data-manage-search-form="habit" class="search-form manage-search-form manage-page__search-form">
+      <div class="form-field">
+        <label for="manage-habit-search" class="form-field__label">Search Habits</label>
+        <input id="manage-habit-search" name="searchHabits" type="search" class="form-field__input" placeholder="Search habits..." />
+      </div>
+      <button type="submit" class="search-form__submit">Search Habit</button>
     </form>
-    <p data-manage-search-feedback="habit" class="muted-copy" hidden></p>
-    <div class="manage-actions-row">
+    <p data-manage-search-feedback="habit" class="muted-copy search-form__feedback" hidden></p>
+    <div class="manage-actions-row action-bar manage-page__actions">
       <button type="button" data-open-modal="quick-add" data-quick-add-tab="habit">New Habit</button>
     </div>
-    <div data-manage-list-placeholder>
+    <div data-manage-list-placeholder class="list-container manage-page__list-container">
       <p>Habit-specific list placeholder. Habit cards, frequency controls, active toggles, edit and delete actions will be shown here.</p>
     </div>
   </section>
 
-  <section aria-labelledby="manage-todos-title" data-manage-section="todos" hidden>
+  <section aria-labelledby="manage-todos-title" class="manage-page__section manage-page__section--todos" data-manage-section="todos" hidden>
     <h2 id="manage-todos-title">Todos</h2>
-    <div class="manage-actions-row">
+    <div class="manage-actions-row action-bar manage-page__actions">
       <button type="button" data-open-modal="quick-add" data-quick-add-tab="todo">New Todo</button>
     </div>
-    <div data-manage-list-placeholder>
+    <div data-manage-list-placeholder class="list-container manage-page__list-container">
       <h3 data-todo-filter-title>Inbox Todos</h3>
       <p data-todo-filter-copy>Todo rows for inbox items will be shown here.</p>
     </div>
   </section>
 
-  <section class="dev-note" aria-label="Implementation note">
+  <section class="dev-note page-note page-note--dev" aria-label="Implementation note">
     <p>
       Placeholder note: Manage tabs now control which section is shown, matching the source habits vs todos workflow.
     </p>

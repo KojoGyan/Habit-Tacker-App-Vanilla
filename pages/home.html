@@ -1,63 +1,63 @@
-<section id="home-view" data-page-view="home" aria-labelledby="home-title">
-  <header class="page-header">
-    <h1 id="home-title">Good morning, User</h1>
-    <p data-home-date>Home dashboard placeholder. Greeting and date become dynamic in phase 2.</p>
+<section id="home-view" data-page-view="home" class="page-view home-page" aria-labelledby="home-title">
+  <header class="page-header home-page__header">
+    <h1 id="home-title" class="page-header__title">Good morning, User</h1>
+    <p data-home-date class="page-header__subtitle">Home dashboard placeholder. Greeting and date become dynamic in phase 2.</p>
   </header>
 
-  <div class="home-layout" data-home-layout>
-    <section aria-labelledby="home-dashboard-title" class="home-dashboard">
+  <div class="home-layout home-page__layout dashboard-grid" data-home-layout>
+    <section aria-labelledby="home-dashboard-title" class="home-dashboard home-page__dashboard dashboard-grid__main">
       <h2 id="home-dashboard-title" class="sr-only">Dashboard</h2>
 
-      <div data-home-score-grid>
-        <article data-card="daily-score" data-open-modal="stats-preview" role="button" tabindex="0" aria-label="Open statistics preview from daily score">
-          <h3>Daily Score</h3>
-          <p data-placeholder="daily-score-value">--%</p>
-          <p class="muted-copy">Click card to preview stats.</p>
+      <div data-home-score-grid class="metric-grid metric-grid--two home-dashboard__metrics">
+        <article data-card="daily-score" class="card card--metric card--interactive home-dashboard__metric-card home-dashboard__metric-card--daily" data-open-modal="stats-preview" role="button" tabindex="0" aria-label="Open statistics preview from daily score">
+          <h3 class="card__title">Daily Score</h3>
+          <p data-placeholder="daily-score-value" class="card__value">--%</p>
+          <p class="muted-copy card__meta">Click card to preview stats.</p>
         </article>
 
-        <article data-card="streak-score" data-open-modal="stats-preview" role="button" tabindex="0" aria-label="Open statistics preview from streak card">
-          <h3>Streak</h3>
-          <p data-placeholder="streak-value">-- days</p>
-          <p class="muted-copy">Click card to preview stats.</p>
+        <article data-card="streak-score" class="card card--metric card--interactive home-dashboard__metric-card home-dashboard__metric-card--streak" data-open-modal="stats-preview" role="button" tabindex="0" aria-label="Open statistics preview from streak card">
+          <h3 class="card__title">Streak</h3>
+          <p data-placeholder="streak-value" class="card__value">-- days</p>
+          <p class="muted-copy card__meta">Click card to preview stats.</p>
         </article>
       </div>
 
-      <section aria-labelledby="home-weekly-chart-title">
-        <h3 id="home-weekly-chart-title">Weekly Progress</h3>
-        <article data-placeholder="weekly-chart" data-open-modal="stats-preview" role="button" tabindex="0" aria-label="Open statistics preview from weekly progress">
-          <p>Chart region placeholder.</p>
-          <p class="muted-copy">Tap to open stats preview.</p>
+      <section aria-labelledby="home-weekly-chart-title" class="home-dashboard__weekly">
+        <h3 id="home-weekly-chart-title" class="home-dashboard__section-title">Weekly Progress</h3>
+        <article data-placeholder="weekly-chart" class="card card--interactive weekly-chart" data-open-modal="stats-preview" role="button" tabindex="0" aria-label="Open statistics preview from weekly progress">
+          <p class="card__body">Chart region placeholder.</p>
+          <p class="muted-copy card__meta">Tap to open stats preview.</p>
         </article>
       </section>
     </section>
 
-    <section aria-labelledby="home-trackers-title" class="home-trackers">
-      <h2 id="home-trackers-title">Trackers</h2>
-      <div data-home-trackers-grid>
-        <article data-tracker="habits">
-          <h3>Habits</h3>
-          <p>Habit list preview placeholder.</p>
-          <button type="button" data-open-modal="quick-add" data-quick-add-tab="habit">Add Habit</button>
+    <section aria-labelledby="home-trackers-title" class="home-trackers home-page__trackers dashboard-grid__sidebar">
+      <h2 id="home-trackers-title" class="home-trackers__title">Trackers</h2>
+      <div data-home-trackers-grid class="tracker-grid tracker-grid--stack">
+        <article data-tracker="habits" class="card tracker-card tracker-card--habits">
+          <h3 class="card__title">Habits</h3>
+          <p class="card__body">Habit list preview placeholder.</p>
+          <button type="button" class="tracker-card__action" data-open-modal="quick-add" data-quick-add-tab="habit">Add Habit</button>
         </article>
 
-        <article data-tracker="todos">
-          <h3>Todos</h3>
-          <p>Todo list preview placeholder.</p>
-          <button type="button" data-open-modal="quick-add" data-quick-add-tab="todo">Add Todo</button>
+        <article data-tracker="todos" class="card tracker-card tracker-card--todos">
+          <h3 class="card__title">Todos</h3>
+          <p class="card__body">Todo list preview placeholder.</p>
+          <button type="button" class="tracker-card__action" data-open-modal="quick-add" data-quick-add-tab="todo">Add Todo</button>
         </article>
       </div>
     </section>
   </div>
 
-  <section class="mobile-actions" aria-label="Home quick actions">
-    <button type="button" data-open-modal="quick-add" data-quick-add-tab="habit">Quick Add</button>
+  <section class="mobile-actions quick-actions quick-actions--habit" aria-label="Home quick actions">
+    <button type="button" class="quick-actions__button" data-open-modal="quick-add" data-quick-add-tab="habit">Quick Add</button>
   </section>
 
-  <section class="mobile-actions" aria-label="Home add todo action">
-    <button type="button" data-open-modal="quick-add" data-quick-add-tab="todo">Quick Add Todo</button>
+  <section class="mobile-actions quick-actions quick-actions--todo" aria-label="Home add todo action">
+    <button type="button" class="quick-actions__button" data-open-modal="quick-add" data-quick-add-tab="todo">Quick Add Todo</button>
   </section>
 
-  <section class="dev-note" aria-label="Implementation note">
+  <section class="dev-note page-note page-note--dev" aria-label="Implementation note">
     <p>
       Placeholder note: Home cards and trackers match structure of the source dashboard. Data rendering will be added later.
     </p>

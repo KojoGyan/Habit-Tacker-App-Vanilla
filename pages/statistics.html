@@ -1,69 +1,69 @@
-<section id="statistics-view" data-page-view="statistics" aria-labelledby="statistics-title">
-  <header class="page-header">
-    <h1 id="statistics-title">Statistics</h1>
-    <p>Track your growth over time.</p>
+<section id="statistics-view" data-page-view="statistics" class="page-view stats-page" aria-labelledby="statistics-title">
+  <header class="page-header stats-page__header">
+    <h1 id="statistics-title" class="page-header__title">Statistics</h1>
+    <p class="page-header__subtitle">Track your growth over time.</p>
   </header>
 
-  <section aria-labelledby="statistics-summary-title">
+  <section aria-labelledby="statistics-summary-title" class="stats-page__summary">
     <h2 id="statistics-summary-title">Summary</h2>
-    <div data-stat-summary-grid>
-      <article data-stat-card="highest-daily">
-        <h3>Highest Daily Score</h3>
-        <p>--%</p>
+    <div data-stat-summary-grid class="metric-grid metric-grid--four stats-page__summary-grid">
+      <article data-stat-card="highest-daily" class="card card--metric stat-card stat-card--highest-daily">
+        <h3 class="card__title">Highest Daily Score</h3>
+        <p class="card__value">--%</p>
       </article>
-      <article data-stat-card="weekly-average">
-        <h3>Weekly Average</h3>
-        <p>--%</p>
+      <article data-stat-card="weekly-average" class="card card--metric stat-card stat-card--weekly-average">
+        <h3 class="card__title">Weekly Average</h3>
+        <p class="card__value">--%</p>
       </article>
-      <article data-stat-card="monthly-average">
-        <h3>Monthly Average</h3>
-        <p>--%</p>
+      <article data-stat-card="monthly-average" class="card card--metric stat-card stat-card--monthly-average">
+        <h3 class="card__title">Monthly Average</h3>
+        <p class="card__value">--%</p>
       </article>
-      <article data-stat-card="all-time-average">
-        <h3>All Time Average</h3>
-        <p>--%</p>
+      <article data-stat-card="all-time-average" class="card card--metric stat-card stat-card--all-time-average">
+        <h3 class="card__title">All Time Average</h3>
+        <p class="card__value">--%</p>
       </article>
     </div>
   </section>
 
-  <section aria-labelledby="statistics-streak-title">
+  <section aria-labelledby="statistics-streak-title" class="stats-page__streaks">
     <h2 id="statistics-streak-title">Streak and Consistency</h2>
-    <div data-stat-streak-grid>
-      <article>
-        <h3>Longest Streak</h3>
-        <p>-- days</p>
+    <div data-stat-streak-grid class="metric-grid metric-grid--three stats-page__streak-grid">
+      <article class="card card--metric stats-page__streak-card stats-page__streak-card--longest">
+        <h3 class="card__title">Longest Streak</h3>
+        <p class="card__value">-- days</p>
       </article>
-      <article>
-        <h3>Individual Habit Streak</h3>
-        <label for="habit-selector">Habit</label>
-        <select id="habit-selector" name="habit">
+      <article class="card card--metric stats-page__streak-card stats-page__streak-card--habit">
+        <h3 class="card__title">Individual Habit Streak</h3>
+        <label for="habit-selector" class="form-field__label">Habit</label>
+        <select id="habit-selector" name="habit" class="form-field__select">
           <option value="">Select a habit</option>
         </select>
-        <p>-- days</p>
+        <p class="card__value">-- days</p>
       </article>
-      <article>
-        <h3>Current Streak</h3>
-        <p>-- days</p>
+      <article class="card card--metric stats-page__streak-card stats-page__streak-card--current">
+        <h3 class="card__title">Current Streak</h3>
+        <p class="card__value">-- days</p>
       </article>
     </div>
   </section>
 
-  <section aria-labelledby="statistics-performance-title">
+  <section aria-labelledby="statistics-performance-title" class="stats-page__performance">
     <h2 id="statistics-performance-title">Performance Over Time</h2>
-    <div role="tablist" aria-label="Time ranges" data-stat-range-tabs>
-      <button type="button" role="tab" aria-selected="true" data-time-range="weekly">Weekly</button>
-      <button type="button" role="tab" aria-selected="false" data-time-range="monthly">Monthly</button>
-      <button type="button" role="tab" aria-selected="false" data-time-range="yearly">Yearly</button>
-      <button type="button" role="tab" aria-selected="false" data-time-range="all">All Time</button>
+    <div role="tablist" aria-label="Time ranges" class="segmented-control stats-page__range-tabs" data-stat-range-tabs>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--range" aria-selected="true" data-time-range="weekly">Weekly</button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--range" aria-selected="false" data-time-range="monthly">Monthly</button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--range" aria-selected="false" data-time-range="yearly">Yearly</button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--range" aria-selected="false" data-time-range="all">All Time</button>
     </div>
 
-    <article data-placeholder="statistics-chart" data-stat-chart-placeholder>
-      <h3 data-stat-chart-title>Daily Performance</h3>
-      <p data-stat-chart-copy>The weekly tab stats will be shown here.</p>
+    <article data-placeholder="statistics-chart" class="card card--chart stats-page__chart" data-stat-chart-placeholder>
+      <h3 data-stat-chart-title class="card__title">Daily Performance</h3>
+      <p data-stat-chart-copy class="card__body">The weekly tab stats will be shown here.</p>
     </article>
   </section>
 
-  <section class="dev-note" aria-label="Implementation note">
+  <section class="dev-note page-note page-note--dev" aria-label="Implementation note">
     <p>
       Placeholder note: Statistics tabs are active and update this chart area copy until chart integration is added.
     </p>
