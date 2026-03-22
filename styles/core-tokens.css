@@ -1,3 +1,84 @@
+@font-face {
+  font-family: "Montserrat Alternates";
+  src: url("../assets/fonts/montserrat-alternates/montserrat-alternates-400-normal.woff2") format("woff2"),
+       url("../assets/fonts/montserrat-alternates/montserrat-alternates-400-normal.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat Alternates";
+  src: url("../assets/fonts/montserrat-alternates/montserrat-alternates-500-normal.woff2") format("woff2"),
+       url("../assets/fonts/montserrat-alternates/montserrat-alternates-500-normal.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat Alternates";
+  src: url("../assets/fonts/montserrat-alternates/montserrat-alternates-600-normal.woff2") format("woff2"),
+       url("../assets/fonts/montserrat-alternates/montserrat-alternates-600-normal.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat Alternates";
+  src: url("../assets/fonts/montserrat-alternates/montserrat-alternates-700-normal.woff2") format("woff2"),
+       url("../assets/fonts/montserrat-alternates/montserrat-alternates-700-normal.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Text Me One";
+  src: url("../assets/fonts/text-me-one/text-me-one-400-normal.woff2") format("woff2"),
+       url("../assets/fonts/text-me-one/text-me-one-400-normal.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Overpass";
+  src: url("../assets/fonts/overpass/overpass-400-normal.woff2") format("woff2"),
+       url("../assets/fonts/overpass/overpass-400-normal.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Overpass";
+  src: url("../assets/fonts/overpass/overpass-500-normal.woff2") format("woff2"),
+       url("../assets/fonts/overpass/overpass-500-normal.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Overpass";
+  src: url("../assets/fonts/overpass/overpass-600-normal.woff2") format("woff2"),
+       url("../assets/fonts/overpass/overpass-600-normal.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Overpass";
+  src: url("../assets/fonts/overpass/overpass-700-normal.woff2") format("woff2"),
+       url("../assets/fonts/overpass/overpass-700-normal.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --brand-olive: hsl(75 32% 60%);
   --brand-yellow-green: hsl(67 51% 76%);

@@ -13,33 +13,59 @@
   <div id="app-root" data-app-shell class="app-shell">
     <header id="mobile-header" data-shell-mobile-header class="app-mobile-header app-shell__mobile-header" aria-label="Mobile header">
       <div data-logo-group class="app-mobile-header__brand">
-        <img src="./assets/brand/sproutly-logo.svg" alt="Sproutly" width="120" height="32" />
+        <img src="./assets/brand/LogoWithText.svg" alt="Sproutly" width="83" height="32" />
       </div>
-      <button type="button" data-theme-toggle class="app-mobile-header__theme-toggle" aria-label="Toggle theme">Theme</button>
+      <button type="button" data-theme-toggle class="app-mobile-header__theme-toggle" aria-label="Toggle theme">
+        <img src="./assets/icons/moon.svg" data-theme-icon alt="" aria-hidden="true" width="20" height="20" />
+        <span class="sr-only" data-theme-label>Dark Mode</span>
+      </button>
     </header>
 
     <div id="app-shell" tabindex="0" data-shell-wrapper class="app-shell__layout">
       <aside id="app-sidebar" data-shell-sidebar class="app-sidebar app-shell__sidebar" aria-label="Primary navigation">
         <div data-sidebar-brand class="app-sidebar__brand">
-          <img src="./assets/brand/sproutly-logo.svg" alt="Sproutly logo" width="140" height="40" />
+          <img src="./assets/brand/Logo.svg" alt="" class="app-sidebar__brand-mark" aria-hidden="true" width="32" height="40" />
+          <img src="./assets/brand/LogoWithText.svg" alt="Sproutly" class="app-sidebar__brand-wordmark" width="124" height="34" />
         </div>
 
         <nav class="app-sidebar__nav" aria-label="App pages">
           <ul class="app-sidebar__nav-list">
             <li class="app-sidebar__nav-item">
-              <a href="#page=home" data-nav-page="home" class="app-sidebar__nav-link" aria-current="page">Home</a>
+              <a href="#page=home" data-nav-page="home" class="app-sidebar__nav-link" aria-current="page" aria-label="Home">
+                <img src="./assets/icons/home.svg" alt="" class="app-sidebar__nav-icon" aria-hidden="true" width="20" height="20" />
+                <span class="app-sidebar__nav-label" aria-hidden="true">Home</span>
+              </a>
             </li>
             <li class="app-sidebar__nav-item">
-              <a href="#page=manage" data-nav-page="manage" class="app-sidebar__nav-link">Manage Habits</a>
+              <a href="#page=manage" data-nav-page="manage" class="app-sidebar__nav-link" aria-label="Manage habits">
+                <img src="./assets/icons/list-checks.svg" alt="" class="app-sidebar__nav-icon" aria-hidden="true" width="20" height="20" />
+                <span class="app-sidebar__nav-label" aria-hidden="true">Manage Habits</span>
+              </a>
             </li>
             <li class="app-sidebar__nav-item">
-              <a href="#page=statistics" data-nav-page="statistics" class="app-sidebar__nav-link">Statistics</a>
+              <a href="#page=statistics" data-nav-page="statistics" class="app-sidebar__nav-link" aria-label="Statistics">
+                <img src="./assets/icons/bar-chart-3.svg" alt="" class="app-sidebar__nav-icon" aria-hidden="true" width="20" height="20" />
+                <span class="app-sidebar__nav-label" aria-hidden="true">Statistics</span>
+              </a>
             </li>
           </ul>
         </nav>
 
         <div data-sidebar-controls class="app-sidebar__controls">
-          <button type="button" data-theme-toggle class="app-sidebar__theme-toggle" aria-label="Toggle theme">Theme</button>
+          <div class="app-sidebar__utility-controls" aria-label="Sidebar utility controls">
+            <button type="button" class="app-sidebar__info-button" aria-label="Information">
+              <img src="./assets/icons/info.svg" alt="" aria-hidden="true" width="16" height="16" />
+              <span class="app-sidebar__control-label" aria-hidden="true">Demo Mode</span>
+            </button>
+            <button type="button" data-theme-toggle class="app-sidebar__theme-toggle" aria-label="Toggle theme">
+              <img src="./assets/icons/moon.svg" data-theme-icon alt="" aria-hidden="true" width="20" height="20" />
+              <span class="app-sidebar__control-label" data-theme-label aria-hidden="true">Dark Mode</span>
+            </button>
+            <button type="button" data-sidebar-toggle class="app-sidebar__collapse-toggle" aria-label="Expand sidebar" aria-expanded="false" aria-controls="app-shell">
+              <img src="./assets/icons/chevron-right.svg" alt="" aria-hidden="true" width="20" height="20" />
+              <span class="app-sidebar__control-label" aria-hidden="true">Collapse</span>
+            </button>
+          </div>
         </div>
       </aside>
 
@@ -58,9 +84,24 @@
 
     <nav id="mobile-nav" data-shell-mobile-nav class="app-mobile-nav app-shell__mobile-nav" aria-label="Mobile app pages">
       <ul class="app-mobile-nav__list">
-        <li class="app-mobile-nav__item"><a href="#page=home" data-nav-page="home" class="app-mobile-nav__link" aria-current="page">Home</a></li>
-        <li class="app-mobile-nav__item"><a href="#page=manage" data-nav-page="manage" class="app-mobile-nav__link">Manage</a></li>
-        <li class="app-mobile-nav__item"><a href="#page=statistics" data-nav-page="statistics" class="app-mobile-nav__link">Stats</a></li>
+        <li class="app-mobile-nav__item">
+          <a href="#page=home" data-nav-page="home" class="app-mobile-nav__link" aria-current="page" aria-label="Home">
+            <img src="./assets/icons/home.svg" alt="" class="app-mobile-nav__icon" aria-hidden="true" width="20" height="20" />
+            <span class="app-mobile-nav__label">Home</span>
+          </a>
+        </li>
+        <li class="app-mobile-nav__item">
+          <a href="#page=manage" data-nav-page="manage" class="app-mobile-nav__link" aria-label="Manage habits">
+            <img src="./assets/icons/list-checks.svg" alt="" class="app-mobile-nav__icon" aria-hidden="true" width="20" height="20" />
+            <span class="app-mobile-nav__label">Manage</span>
+          </a>
+        </li>
+        <li class="app-mobile-nav__item">
+          <a href="#page=statistics" data-nav-page="statistics" class="app-mobile-nav__link" aria-label="Statistics">
+            <img src="./assets/icons/bar-chart-3.svg" alt="" class="app-mobile-nav__icon" aria-hidden="true" width="20" height="20" />
+            <span class="app-mobile-nav__label">Stats</span>
+          </a>
+        </li>
       </ul>
     </nav>
 

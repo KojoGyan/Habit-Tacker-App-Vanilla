@@ -12,6 +12,7 @@ const MODAL_MAP = {
 
 const DEFAULT_PAGE = "home";
 const THEME_STORAGE_KEY = "sproutly-theme";
+const SIDEBAR_EXPANDED_STORAGE_KEY = "sproutly-sidebar-expanded";
 const USER_NAME_STORAGE_KEY = "sproutly-user-name";
 const DEMO_STORAGE_KEY = "sproutly-demo-loaded";
 
@@ -93,7 +94,7 @@ function updateActiveNav(page) {
 
 async function renderPage(page) {
   const mount = document.querySelector("#page-view-mount");
-  if (!mount) {
+  if (!(mount instanceof HTMLElement)) {
     throw new Error("Missing page mount element.");
   }
 
@@ -103,7 +104,15 @@ async function renderPage(page) {
   }
 
   const html = await fetchFragment(state.pageCache, page, path);
+  mount.classList.remove("page-transition-enter");
   mount.innerHTML = html;
+
+  // Restart the mount animation on each route render.
+  void mount.offsetWidth;
+  mount.classList.add("page-transition-enter");
+  window.setTimeout(() => {
+    mount.classList.remove("page-transition-enter");
+  }, 360);
 
   const pageContent = document.querySelector("#page-content");
   if (pageContent instanceof HTMLElement) {
@@ -587,6 +596,25 @@ function ensureThemeButtons() {
   const root = document.documentElement;
   const initial = localStorage.getItem(THEME_STORAGE_KEY);
 
+  const applyThemeUi = (isDark) => {
+    const iconPath = isDark ? "./assets/icons/sun.svg" : "./assets/icons/moon.svg";
+    const modeLabel = isDark ? "Light Mode" : "Dark Mode";
+
+    const themeIcons = document.querySelectorAll("[data-theme-icon]");
+    themeIcons.forEach((icon) => {
+      if (icon instanceof HTMLImageElement) {
+        icon.src = iconPath;
+      }
+    });
+
+    const themeLabels = document.querySelectorAll("[data-theme-label]");
+    themeLabels.forEach((label) => {
+      if (label instanceof HTMLElement) {
+        label.textContent = modeLabel;
+      }
+    });
+  };
+
   if (initial === "dark") {
     root.classList.add("dark");
     root.classList.remove("theme-light");
@@ -595,6 +623,8 @@ function ensureThemeButtons() {
     root.classList.add("theme-light");
   }
 
+  applyThemeUi(root.classList.contains("dark"));
+
   const toggleButtons = document.querySelectorAll("[data-theme-toggle]");
   toggleButtons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -602,7 +632,47 @@ function ensureThemeButtons() {
       root.classList.toggle("dark", nowDark);
       root.classList.toggle("theme-light", !nowDark);
       localStorage.setItem(THEME_STORAGE_KEY, nowDark ? "dark" : "light");
+      applyThemeUi(nowDark);
     });
+  });
+}
+
+function initializeSidebarToggle() {
+  const shellRoot = document.querySelector("#app-root");
+  const shellLayout = document.querySelector("#app-shell");
+  const toggleButton = document.querySelector("[data-sidebar-toggle]");
+
+  if (!(shellRoot instanceof HTMLElement) || !(shellLayout instanceof HTMLElement) || !(toggleButton instanceof HTMLButtonElement)) {
+    return;
+  }
+
+  const mq = window.matchMedia("(max-width: 900px)");
+
+  const applyExpandedState = (expanded) => {
+    const allowDesktopSidebar = !mq.matches;
+    const nextExpanded = allowDesktopSidebar ? expanded : false;
+    shellRoot.classList.toggle("app-shell--sidebar-expanded", nextExpanded);
+    toggleButton.setAttribute("aria-expanded", nextExpanded ? "true" : "false");
+    toggleButton.setAttribute("aria-label", nextExpanded ? "Collapse sidebar" : "Expand sidebar");
+  };
+
+  const initialExpanded = localStorage.getItem(SIDEBAR_EXPANDED_STORAGE_KEY) === "true";
+  applyExpandedState(initialExpanded);
+
+  toggleButton.addEventListener("click", () => {
+    if (mq.matches) {
+      return;
+    }
+
+    const isExpanded = shellRoot.classList.contains("app-shell--sidebar-expanded");
+    const nextExpanded = !isExpanded;
+    localStorage.setItem(SIDEBAR_EXPANDED_STORAGE_KEY, nextExpanded ? "true" : "false");
+    applyExpandedState(nextExpanded);
+  });
+
+  mq.addEventListener("change", () => {
+    const savedExpanded = localStorage.getItem(SIDEBAR_EXPANDED_STORAGE_KEY) === "true";
+    applyExpandedState(savedExpanded);
   });
 }
 
@@ -706,18 +776,16 @@ function bindGlobalEvents() {
 function initializeShellVisibility() {
   const mq = window.matchMedia("(max-width: 900px)");
   const sidebar = document.querySelector("#app-sidebar");
-  const rail = document.querySelector("#app-rail");
   const mobileHeader = document.querySelector("#mobile-header");
   const mobileNav = document.querySelector("#mobile-nav");
 
-  if (!(sidebar instanceof HTMLElement) || !(rail instanceof HTMLElement) || !(mobileHeader instanceof HTMLElement) || !(mobileNav instanceof HTMLElement)) {
+  if (!(sidebar instanceof HTMLElement) || !(mobileHeader instanceof HTMLElement) || !(mobileNav instanceof HTMLElement)) {
     return;
   }
 
   const apply = () => {
     const mobile = mq.matches;
     sidebar.hidden = mobile;
-    rail.hidden = mobile;
     mobileHeader.hidden = !mobile;
     mobileNav.hidden = !mobile;
   };
@@ -728,6 +796,7 @@ function initializeShellVisibility() {
 
 async function bootstrap() {
   ensureThemeButtons();
+  initializeSidebarToggle();
   initializeShellVisibility();
   bindGlobalEvents();
 
