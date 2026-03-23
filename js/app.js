@@ -435,6 +435,38 @@ function setQuickAddFrequency(modalRoot, frequency) {
 }
 
 function setStatsRange(modalRoot, range) {
+  const hardcodedStatsByRange = {
+    weekly: {
+      average: "64%",
+      currentStreak: "78",
+      bestStreak: "121",
+      bars: [70, 58, 72, 64, 45, 52, 67],
+      copy: "Weekly completion trend preview.",
+    },
+    monthly: {
+      average: "68%",
+      currentStreak: "82",
+      bestStreak: "121",
+      bars: [56, 61, 66, 63, 69, 72, 70],
+      copy: "Monthly completion trend preview.",
+    },
+    yearly: {
+      average: "71%",
+      currentStreak: "91",
+      bestStreak: "132",
+      bars: [60, 64, 68, 72, 74, 77, 79],
+      copy: "Yearly completion trend preview.",
+    },
+    all: {
+      average: "69%",
+      currentStreak: "121",
+      bestStreak: "178",
+      bars: [52, 58, 63, 70, 73, 76, 81],
+      copy: "All-time completion trend preview.",
+    },
+  };
+
+  const values = hardcodedStatsByRange[range] || hardcodedStatsByRange.weekly;
   const rangeTabs = modalRoot.querySelectorAll("[data-stats-range]");
   rangeTabs.forEach((button) => {
     if (!(button instanceof HTMLButtonElement)) {
@@ -443,10 +475,6 @@ function setStatsRange(modalRoot, range) {
 
     const isActive = button.dataset.statsRange === range;
     button.setAttribute("aria-selected", isActive ? "true" : "false");
-    button.classList.toggle("bg-primary", isActive);
-    button.classList.toggle("text-primary-foreground", isActive);
-    button.classList.toggle("bg-secondary/30", !isActive);
-    button.classList.toggle("text-foreground", !isActive);
   });
 
   const title = modalRoot.querySelector("[data-stats-performance-title]");
@@ -457,9 +485,38 @@ function setStatsRange(modalRoot, range) {
 
   const chartCopy = modalRoot.querySelector("[data-stats-chart-copy]");
   if (chartCopy instanceof HTMLElement) {
-    const label = range === "all" ? "all-time" : range;
-    chartCopy.textContent = `Chart placeholder region matching the original ${label} preview layout.`;
+    chartCopy.textContent = values.copy;
   }
+
+  const average = modalRoot.querySelector("[data-stats-average-value]");
+  if (average instanceof HTMLElement) {
+    average.textContent = values.average;
+  }
+
+  const currentStreak = modalRoot.querySelector("[data-stats-current-streak-value]");
+  if (currentStreak instanceof HTMLElement) {
+    currentStreak.textContent = values.currentStreak;
+  }
+
+  const bestStreak = modalRoot.querySelector("[data-stats-best-streak-value]");
+  if (bestStreak instanceof HTMLElement) {
+    bestStreak.textContent = values.bestStreak;
+  }
+
+  const bars = modalRoot.querySelectorAll(".stats-preview-chart__bar > span");
+  bars.forEach((bar, index) => {
+    if (bar instanceof HTMLElement) {
+      const nextHeight = values.bars[index] || 40;
+      bar.style.height = `${nextHeight}%`;
+    }
+  });
+
+  const unitLabels = modalRoot.querySelectorAll(".card__unit");
+  unitLabels.forEach((unit) => {
+    if (unit instanceof HTMLElement) {
+      unit.textContent = "days";
+    }
+  });
 }
 
 function bindModalInteractiveBehavior(modalRoot, modalKey) {
@@ -595,15 +652,18 @@ async function renderModal(modalKey) {
 function ensureThemeButtons() {
   const root = document.documentElement;
   const initial = localStorage.getItem(THEME_STORAGE_KEY);
+  const sunIconUrl = new URL("../assets/icons/sun.svg", import.meta.url).href;
+  const moonIconUrl = new URL("../assets/icons/moon.svg", import.meta.url).href;
 
   const applyThemeUi = (isDark) => {
-    const iconPath = isDark ? "./assets/icons/sun.svg" : "./assets/icons/moon.svg";
+    const iconPath = isDark ? sunIconUrl : moonIconUrl;
     const modeLabel = isDark ? "Light Mode" : "Dark Mode";
+    const buttonLabel = isDark ? "Switch to light theme" : "Switch to dark theme";
 
     const themeIcons = document.querySelectorAll("[data-theme-icon]");
     themeIcons.forEach((icon) => {
       if (icon instanceof HTMLImageElement) {
-        icon.src = iconPath;
+        icon.setAttribute("src", iconPath);
       }
     });
 
@@ -611,6 +671,13 @@ function ensureThemeButtons() {
     themeLabels.forEach((label) => {
       if (label instanceof HTMLElement) {
         label.textContent = modeLabel;
+      }
+    });
+
+    const toggleButtons = document.querySelectorAll("[data-theme-toggle]");
+    toggleButtons.forEach((button) => {
+      if (button instanceof HTMLButtonElement) {
+        button.setAttribute("aria-label", buttonLabel);
       }
     });
   };

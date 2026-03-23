@@ -1,84 +1,48 @@
-<section class="modal modal--quick-add fixed inset-0 flex items-center justify-center z-50 p-4" aria-hidden="false">
-  <div class="modal__backdrop modal-backdrop" data-modal-backdrop="true"></div>
+<section class="modal modal--quick-add" aria-hidden="false">
+  <div class="modal__backdrop" data-modal-backdrop="true"></div>
 
-  <div
-    class="modal__panel modal__panel--md modal-card bg-popover rounded-2xl shadow-xl max-w-[480px] w-full max-h-[90vh] overflow-y-auto relative"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="quick-add-title"
-  >
-    <div class="modal__header modal__header--split flex items-center justify-between p-6 border-b border-border">
-      <h2 id="quick-add-title" class="modal__title font-display text-2xl">Add New</h2>
-      <button
-        type="button"
-        class="modal__close modal-close text-muted-foreground hover:text-foreground transition-colors"
-        data-modal-close
-        aria-label="Close quick add"
-      >
-        <span aria-hidden="true">X</span>
+  <div class="modal__panel modal__panel--quick-add" role="dialog" aria-modal="true" aria-labelledby="quick-add-title">
+    <div class="modal__header modal__header--split">
+      <h2 id="quick-add-title" class="modal__title">Add New</h2>
+      <button type="button" class="modal__close" data-modal-close aria-label="Close quick add">
+        <span aria-hidden="true">×</span>
       </button>
     </div>
 
-    <div class="segmented-control segmented-control--full-width modal__tabs flex border-b border-border" role="tablist" aria-label="Quick add tabs">
-      <button type="button" role="tab" data-quick-add-tab="habit" aria-selected="true" class="segmented-control__button segmented-control__button--full-width flex-1 py-4 font-body transition-colors relative">
-        Habit
-      </button>
-      <button type="button" role="tab" data-quick-add-tab="todo" aria-selected="false" class="segmented-control__button segmented-control__button--full-width flex-1 py-4 font-body transition-colors relative">
-        Todo
-      </button>
+    <div class="modal__tabs" role="tablist" aria-label="Quick add tabs">
+      <button type="button" role="tab" data-quick-add-tab="habit" aria-selected="true" class="modal__tab">Habit</button>
+      <button type="button" role="tab" data-quick-add-tab="todo" aria-selected="false" class="modal__tab">Todo</button>
     </div>
 
-    <form class="modal__body modal-form p-6 space-y-6" aria-label="Quick add placeholder form" data-quick-add-form>
+    <form class="modal__body modal-form" aria-label="Quick add placeholder form" data-quick-add-form>
       <div class="form-field">
-        <input
-          type="text"
-          name="name"
-          data-quick-add-name-input
-          required
-          placeholder="Name your habit..."
-          class="form-field__input w-full px-4 py-3 bg-input-background dark:bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-ring font-body"
-        />
-        <p data-quick-add-error class="form-field__error text-sm text-danger" hidden>Please enter a name.</p>
+        <input type="text" name="name" data-quick-add-name-input required placeholder="Name your habit..." class="form-field__input" />
+        <p data-quick-add-error class="form-field__error" hidden>Please enter a name.</p>
       </div>
 
       <div data-quick-add-section="habit" class="form-field form-field--frequency">
-        <label class="form-field__label block text-sm font-body mb-2 text-muted-foreground">Frequency</label>
-        <div class="segmented-control segmented-control--frequency flex gap-2">
-          <button type="button" data-frequency-button="daily" aria-pressed="true" class="segmented-control__button segmented-control__button--frequency flex-1 py-2 px-4 rounded-lg font-body transition-colors bg-primary text-primary-foreground">
-            Daily
-          </button>
-          <button type="button" data-frequency-button="weekly" aria-pressed="false" class="segmented-control__button segmented-control__button--frequency flex-1 py-2 px-4 rounded-lg font-body transition-colors bg-secondary/30 text-foreground hover:bg-secondary/50">
-            Weekly
-          </button>
+        <label class="form-field__label">Frequency</label>
+        <div class="segmented-control segmented-control--frequency">
+          <button type="button" data-frequency-button="daily" aria-pressed="true" class="segmented-control__button segmented-control__button--frequency">Daily</button>
+          <button type="button" data-frequency-button="weekly" aria-pressed="false" class="segmented-control__button segmented-control__button--frequency">Weekly</button>
         </div>
       </div>
 
       <div data-quick-add-section="todo" class="form-field" hidden>
-        <label for="todo-due-date" class="form-field__label block text-sm font-body mb-2 text-muted-foreground">Due Date (Optional)</label>
-        <input
-          id="todo-due-date"
-          type="date"
-          name="dueDate"
-          class="form-field__input w-full px-4 py-3 bg-input-background dark:bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-ring font-body"
-        />
+        <label for="todo-due-date" class="form-field__label">Due Date (Optional)</label>
+        <input id="todo-due-date" type="date" name="dueDate" class="form-field__input" />
       </div>
 
-      <div class="modal__footer dialog-actions flex gap-3">
-        <button
-          type="button"
-          class="dialog-actions__button dialog-actions__button--secondary flex-1 py-3 px-4 rounded-lg font-body text-foreground hover:bg-secondary/30 transition-colors"
-          data-modal-close
-        >
-          Cancel
-        </button>
-        <button type="submit" class="dialog-actions__button dialog-actions__button--primary flex-1 py-3 px-4 rounded-lg font-body bg-accent text-accent-foreground hover:bg-accent/90 transition-colors">
+      <div class="modal__footer dialog-actions">
+        <button type="button" class="dialog-actions__button dialog-actions__button--secondary" data-modal-close>Cancel</button>
+        <button type="submit" class="dialog-actions__button dialog-actions__button--primary">
           <span data-quick-add-submit-label>Add Habit</span>
         </button>
       </div>
 
-      <a href="#page=manage" data-quick-add-manage-link class="modal__link flex items-center justify-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors font-body" data-modal-close>
+      <a href="#page=manage" data-quick-add-manage-link class="modal__link modal__link--manage" data-modal-close>
         <span data-quick-add-manage-link-label>Manage all habits</span>
-        <span aria-hidden="true">-></span>
+        <span aria-hidden="true">→</span>
       </a>
     </form>
   </div>
