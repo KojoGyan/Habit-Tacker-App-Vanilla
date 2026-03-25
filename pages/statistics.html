@@ -1,49 +1,71 @@
 <section id="statistics-view" data-page-view="statistics" class="page-view stats-page" aria-labelledby="statistics-title">
   <header class="page-header stats-page__header">
     <h1 id="statistics-title" class="page-header__title">Statistics</h1>
-    <p class="page-header__subtitle">Track your growth over time.</p>
+    <p class="page-header__subtitle">Track your growth over time</p>
   </header>
 
   <section aria-labelledby="statistics-summary-title" class="stats-page__summary">
     <h2 id="statistics-summary-title">Summary</h2>
     <div data-stat-summary-grid class="metric-grid metric-grid--four stats-page__summary-grid">
       <article data-stat-card="highest-daily" class="card card--metric stat-card stat-card--highest-daily">
-        <h3 class="card__title">Highest Daily Score</h3>
-        <p class="card__value">--%</p>
+        <div class="stat-card__head">
+          <h3 class="card__title">Highest Daily Score</h3>
+          <img src="./assets/icons/trophy.svg" alt="" aria-hidden="true" class="stat-card__icon" width="18" height="18" />
+        </div>
+        <p class="card__value">78</p>
+        <p class="stat-card__unit">percent</p>
       </article>
       <article data-stat-card="weekly-average" class="card card--metric stat-card stat-card--weekly-average">
-        <h3 class="card__title">Weekly Average</h3>
-        <p class="card__value">--%</p>
+        <div class="stat-card__head">
+          <h3 class="card__title">Weekly Average</h3>
+          <img src="./assets/icons/calendar.svg" alt="" aria-hidden="true" class="stat-card__icon" width="18" height="18" />
+        </div>
+        <p class="card__value">69</p>
+        <p class="stat-card__unit">percent</p>
       </article>
       <article data-stat-card="monthly-average" class="card card--metric stat-card stat-card--monthly-average">
-        <h3 class="card__title">Monthly Average</h3>
-        <p class="card__value">--%</p>
+        <div class="stat-card__head">
+          <h3 class="card__title">Monthly Average</h3>
+          <img src="./assets/icons/trending-up.svg" alt="" aria-hidden="true" class="stat-card__icon" width="18" height="18" />
+        </div>
+        <p class="card__value">63</p>
+        <p class="stat-card__unit">percent</p>
       </article>
       <article data-stat-card="all-time-average" class="card card--metric stat-card stat-card--all-time-average">
-        <h3 class="card__title">All Time Average</h3>
-        <p class="card__value">--%</p>
+        <div class="stat-card__head">
+          <h3 class="card__title">All Time Average</h3>
+          <img src="./assets/icons/infinity.svg" alt="" aria-hidden="true" class="stat-card__icon" width="18" height="18" />
+        </div>
+        <p class="card__value">32</p>
+        <p class="stat-card__unit">percent</p>
       </article>
     </div>
   </section>
 
   <section aria-labelledby="statistics-streak-title" class="stats-page__streaks">
-    <h2 id="statistics-streak-title">Streak and Consistency</h2>
+    <h2 id="statistics-streak-title">Streak &amp; Consistency</h2>
     <div data-stat-streak-grid class="metric-grid metric-grid--three stats-page__streak-grid">
       <article class="card card--metric stats-page__streak-card stats-page__streak-card--longest">
         <h3 class="card__title">Longest Streak</h3>
-        <p class="card__value">-- days</p>
+        <p class="card__value">121</p>
+        <p class="stat-card__unit">days</p>
       </article>
       <article class="card card--metric stats-page__streak-card stats-page__streak-card--habit">
         <h3 class="card__title">Individual Habit Streak</h3>
-        <label for="habit-selector" class="form-field__label">Habit</label>
+        <label for="habit-selector" class="form-field__label sr-only">Habit</label>
         <select id="habit-selector" name="habit" class="form-field__select">
           <option value="">Select a habit</option>
+          <option value="morning-meditation">Morning Meditation</option>
+          <option value="read">Read for 30 minutes</option>
+          <option value="exercise">Exercise</option>
         </select>
-        <p class="card__value">-- days</p>
+        <p class="card__value">0</p>
+        <p class="stat-card__unit">days</p>
       </article>
       <article class="card card--metric stats-page__streak-card stats-page__streak-card--current">
         <h3 class="card__title">Current Streak</h3>
-        <p class="card__value">-- days</p>
+        <p class="card__value">121</p>
+        <p class="stat-card__unit">days</p>
       </article>
     </div>
   </section>
@@ -59,13 +81,25 @@
 
     <article data-placeholder="statistics-chart" class="card card--chart stats-page__chart" data-stat-chart-placeholder>
       <h3 data-stat-chart-title class="card__title">Daily Performance</h3>
+      <div class="stats-page__chart-layout" aria-hidden="true">
+        <div class="stats-page__chart-axis">
+          <span>100</span>
+          <span>75</span>
+          <span>50</span>
+          <span>25</span>
+          <span>0</span>
+        </div>
+        <div class="stats-page__chart-bars">
+          <div class="stats-page__chart-bar" data-day="Tue"><span style="height: 78%;"></span></div>
+          <div class="stats-page__chart-bar" data-day="Wed"><span style="height: 69%;"></span></div>
+          <div class="stats-page__chart-bar" data-day="Thu"><span style="height: 63%;"></span></div>
+          <div class="stats-page__chart-bar" data-day="Fri"><span style="height: 60%;"></span></div>
+          <div class="stats-page__chart-bar" data-day="Sat"><span style="height: 58%;"></span></div>
+          <div class="stats-page__chart-bar" data-day="Sun"><span style="height: 61%;"></span></div>
+          <div class="stats-page__chart-bar stats-page__chart-bar--accent" data-day="Mon"><span style="height: 66%;"></span></div>
+        </div>
+      </div>
       <p data-stat-chart-copy class="card__body">The weekly tab stats will be shown here.</p>
     </article>
-  </section>
-
-  <section class="dev-note page-note page-note--dev" aria-label="Implementation note">
-    <p>
-      Placeholder note: Statistics tabs are active and update this chart area copy until chart integration is added.
-    </p>
   </section>
 </section>

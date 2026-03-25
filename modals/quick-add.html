@@ -10,8 +10,8 @@
     </div>
 
     <div class="modal__tabs" role="tablist" aria-label="Quick add tabs">
-      <button type="button" role="tab" data-quick-add-tab="habit" aria-selected="true" class="modal__tab">Habit</button>
-      <button type="button" role="tab" data-quick-add-tab="todo" aria-selected="false" class="modal__tab">Todo</button>
+      <button type="button" role="tab" id="quick-add-tab-habit" aria-controls="quick-add-panel-habit" data-quick-add-tab="habit" aria-selected="true" class="modal__tab">Habit</button>
+      <button type="button" role="tab" id="quick-add-tab-todo" aria-controls="quick-add-panel-todo" data-quick-add-tab="todo" aria-selected="false" class="modal__tab">Todo</button>
     </div>
 
     <form class="modal__body modal-form" aria-label="Quick add placeholder form" data-quick-add-form>
@@ -20,7 +20,7 @@
         <p data-quick-add-error class="form-field__error" hidden>Please enter a name.</p>
       </div>
 
-      <div data-quick-add-section="habit" class="form-field form-field--frequency">
+      <div id="quick-add-panel-habit" role="tabpanel" aria-labelledby="quick-add-tab-habit" data-quick-add-section="habit" class="form-field form-field--frequency">
         <label class="form-field__label">Frequency</label>
         <div class="segmented-control segmented-control--frequency">
           <button type="button" data-frequency-button="daily" aria-pressed="true" class="segmented-control__button segmented-control__button--frequency">Daily</button>
@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <div data-quick-add-section="todo" class="form-field" hidden>
+      <div id="quick-add-panel-todo" role="tabpanel" aria-labelledby="quick-add-tab-todo" data-quick-add-section="todo" class="form-field" hidden>
         <label for="todo-due-date" class="form-field__label">Due Date (Optional)</label>
         <input id="todo-due-date" type="date" name="dueDate" class="form-field__input" />
       </div>
@@ -42,7 +42,7 @@
 
       <a href="#page=manage" data-quick-add-manage-link class="modal__link modal__link--manage" data-modal-close>
         <span data-quick-add-manage-link-label>Manage all habits</span>
-        <span aria-hidden="true">→</span>
+        <img src="./assets/icons/arrow-right.svg" alt="" aria-hidden="true" class="modal__link-icon" width="12" height="12" />
       </a>
     </form>
   </div>

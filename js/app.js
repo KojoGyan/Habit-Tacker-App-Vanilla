@@ -378,6 +378,7 @@ function setQuickAddTab(modalRoot, tab) {
 
     const isActive = button.dataset.quickAddTab === tab;
     button.setAttribute("aria-selected", isActive ? "true" : "false");
+    button.tabIndex = isActive ? 0 : -1;
   });
 
   const sections = modalRoot.querySelectorAll("[data-quick-add-section]");
@@ -386,7 +387,10 @@ function setQuickAddTab(modalRoot, tab) {
       return;
     }
 
-    section.hidden = section.dataset.quickAddSection !== tab;
+    const isActive = section.dataset.quickAddSection === tab;
+    section.hidden = !isActive;
+    section.setAttribute("aria-hidden", isActive ? "false" : "true");
+    section.toggleAttribute("inert", !isActive);
   });
 
   const nameInput = modalRoot.querySelector("[data-quick-add-name-input]");
@@ -524,8 +528,21 @@ function bindModalInteractiveBehavior(modalRoot, modalKey) {
     const form = modalRoot.querySelector("[data-welcome-form]");
     const nameInput = modalRoot.querySelector("#userName");
     const error = modalRoot.querySelector("[data-welcome-error]");
+    const brandMark = modalRoot.querySelector("[data-welcome-brand-mark]");
 
     if (form instanceof HTMLFormElement && nameInput instanceof HTMLInputElement) {
+      const syncWelcomeLogoState = () => {
+        if (!(brandMark instanceof HTMLElement)) {
+          return;
+        }
+
+        const isWaiting = nameInput.value.trim().length === 0;
+        brandMark.classList.toggle("is-waiting", isWaiting);
+      };
+
+      syncWelcomeLogoState();
+      nameInput.addEventListener("input", syncWelcomeLogoState);
+
       form.addEventListener("submit", (event) => {
         event.preventDefault();
         const hasValue = nameInput.value.trim().length > 0;
