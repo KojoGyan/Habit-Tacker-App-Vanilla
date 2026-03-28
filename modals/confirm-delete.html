@@ -1,0 +1,29 @@
+<section class="modal modal--confirm-delete" aria-hidden="false">
+  <div class="modal__backdrop" data-modal-backdrop="true"></div>
+
+  <div class="modal__panel modal__panel--confirm-delete" role="dialog" aria-modal="true" aria-labelledby="confirm-delete-title" aria-describedby="confirm-delete-copy">
+    <div class="modal__header modal__header--split">
+      <div class="modal__headline modal__headline--inline">
+        <span class="modal__danger-icon" aria-hidden="true">
+          <img src="./assets/icons/trash-2.svg" alt="" class="modal__danger-icon-image" width="16" height="16" />
+        </span>
+        <h2 id="confirm-delete-title" class="modal__title">Delete Habit?</h2>
+      </div>
+
+      <button type="button" class="modal__close" data-modal-close aria-label="Close delete confirmation">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    <div class="modal__body">
+      <p id="confirm-delete-copy" class="modal__subtitle" data-delete-confirm-copy>
+        Are you sure you want to delete this habit? This action cannot be undone.
+      </p>
+
+      <div class="modal__footer dialog-actions dialog-actions--confirm-delete">
+        <button type="button" class="dialog-actions__button dialog-actions__button--secondary" data-modal-close>Cancel</button>
+        <button type="button" class="dialog-actions__button dialog-actions__button--danger" data-delete-confirm-action>Delete</button>
+      </div>
+    </div>
+  </div>
+</section>

@@ -7,6 +7,7 @@ const PAGE_MAP = {
 const MODAL_MAP = {
   welcome: "./modals/welcome.html",
   "quick-add": "./modals/quick-add.html",
+  "confirm-delete": "./modals/confirm-delete.html",
   "stats-preview": "./modals/stats-preview.html",
 };
 
@@ -21,6 +22,7 @@ const state = {
   modalCache: new Map(),
   activePage: null,
   activeModal: null,
+  pendingDeleteAction: null,
   welcomeAutoOpened: false,
 };
 
@@ -153,6 +155,38 @@ function shouldAutoOpenWelcome() {
   return !hasUserName && !demoLoaded;
 }
 
+function syncCheckToggleState(button) {
+  const isPressed = button.getAttribute("aria-pressed") === "true";
+  const targetItem = button.closest(".tracker-card__item, .manage-habit-card, .manage-todo-row");
+  if (targetItem instanceof HTMLElement) {
+    targetItem.classList.toggle("is-done", isPressed);
+  }
+
+  const isTodo = button.dataset.checkToggle === "todo";
+  if (isTodo) {
+    button.setAttribute("aria-label", isPressed ? "Mark todo as not completed" : "Mark todo as completed");
+    return;
+  }
+
+  button.setAttribute("aria-label", isPressed ? "Mark habit as not completed" : "Mark habit as completed");
+}
+
+function setupCheckToggles() {
+  const buttons = document.querySelectorAll("[data-check-toggle]");
+  buttons.forEach((button) => {
+    if (!(button instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    syncCheckToggleState(button);
+    button.addEventListener("click", () => {
+      const wasPressed = button.getAttribute("aria-pressed") === "true";
+      button.setAttribute("aria-pressed", wasPressed ? "false" : "true");
+      syncCheckToggleState(button);
+    });
+  });
+}
+
 function setupManageView() {
   const tabs = document.querySelectorAll("[data-manage-mode]");
   const habitSection = document.querySelector('[data-manage-section="habits"]');
@@ -195,6 +229,28 @@ function setupManageView() {
   const todoFilterButtons = document.querySelectorAll("[data-todo-filter]");
   const todoFilterTitle = document.querySelector("[data-todo-filter-title]");
   const todoFilterCopy = document.querySelector("[data-todo-filter-copy]");
+  const todoList = document.querySelector('[data-manage-section="todos"] [data-manage-list-placeholder]');
+  let todoFilterAnimationTimeoutId = null;
+
+  const triggerTodoFilterAnimation = () => {
+    if (!(todoList instanceof HTMLElement)) {
+      return;
+    }
+
+    todoList.classList.remove("is-filter-switching");
+    void todoList.offsetWidth;
+    todoList.classList.add("is-filter-switching");
+
+    if (typeof todoFilterAnimationTimeoutId === "number") {
+      window.clearTimeout(todoFilterAnimationTimeoutId);
+    }
+
+    todoFilterAnimationTimeoutId = window.setTimeout(() => {
+      if (todoList instanceof HTMLElement) {
+        todoList.classList.remove("is-filter-switching");
+      }
+    }, 230);
+  };
 
   const filterTextMap = {
     inbox: {
@@ -240,6 +296,8 @@ function setupManageView() {
     if (todoFilterCopy instanceof HTMLElement) {
       todoFilterCopy.textContent = values.copy;
     }
+
+    triggerTodoFilterAnimation();
   };
 
   todoFilterButtons.forEach((button) => {
@@ -336,6 +394,10 @@ function bindPageInteractiveBehavior(page) {
     setupManageView();
   }
 
+  if (page === "home" || page === "manage") {
+    setupCheckToggles();
+  }
+
   if (page === "statistics") {
     setupStatisticsPageTabs();
   }
@@ -350,6 +412,7 @@ function closeModal() {
   modalRoot.innerHTML = "";
   modalRoot.classList.remove("is-open");
   state.activeModal = null;
+  state.pendingDeleteAction = null;
 }
 
 function bindModalCloseBehavior(modalRoot) {
@@ -369,7 +432,19 @@ function bindModalCloseBehavior(modalRoot) {
   });
 }
 
-function setQuickAddTab(modalRoot, tab) {
+function setQuickAddTab(modalRoot, tab, options = {}) {
+  const { animate = true } = options;
+
+  const triggerQuickAddSectionAnimation = (section) => {
+    section.classList.remove("is-tab-switching");
+    void section.offsetWidth;
+    section.classList.add("is-tab-switching");
+
+    window.setTimeout(() => {
+      section.classList.remove("is-tab-switching");
+    }, 150);
+  };
+
   const tabButtons = modalRoot.querySelectorAll("[data-quick-add-tab]");
   tabButtons.forEach((button) => {
     if (!(button instanceof HTMLButtonElement)) {
@@ -388,9 +463,14 @@ function setQuickAddTab(modalRoot, tab) {
     }
 
     const isActive = section.dataset.quickAddSection === tab;
+    section.classList.remove("is-tab-switching");
     section.hidden = !isActive;
     section.setAttribute("aria-hidden", isActive ? "false" : "true");
     section.toggleAttribute("inert", !isActive);
+
+    if (isActive && animate) {
+      triggerQuickAddSectionAnimation(section);
+    }
   });
 
   const nameInput = modalRoot.querySelector("[data-quick-add-name-input]");
@@ -567,7 +647,7 @@ function bindModalInteractiveBehavior(modalRoot, modalKey) {
   if (modalKey === "quick-add") {
     const currentHash = parseHashState();
     const initialTab = currentHash.modalTab === "todo" ? "todo" : "habit";
-    setQuickAddTab(modalRoot, initialTab);
+    setQuickAddTab(modalRoot, initialTab, { animate: false });
     setQuickAddFrequency(modalRoot, "daily");
 
     const tabs = modalRoot.querySelectorAll("[data-quick-add-tab]");
@@ -616,6 +696,29 @@ function bindModalInteractiveBehavior(modalRoot, modalKey) {
         if (!hasValue) {
           nameInput.focus();
           return;
+        }
+
+        const current = parseHashState();
+        writeHashState({ page: current.page || DEFAULT_PAGE, modal: "" });
+      });
+    }
+  }
+
+  if (modalKey === "confirm-delete") {
+    const deleteCopy = modalRoot.querySelector("[data-delete-confirm-copy]");
+    const confirmButton = modalRoot.querySelector("[data-delete-confirm-action]");
+    const pendingDeleteAction = state.pendingDeleteAction;
+
+    if (deleteCopy instanceof HTMLElement) {
+      const name = pendingDeleteAction?.itemName || "this habit";
+      deleteCopy.textContent = `Are you sure you want to delete ${name}? This action cannot be undone.`;
+    }
+
+    if (confirmButton instanceof HTMLButtonElement) {
+      confirmButton.addEventListener("click", () => {
+        const action = state.pendingDeleteAction;
+        if (action?.targetElement instanceof HTMLElement) {
+          action.targetElement.remove();
         }
 
         const current = parseHashState();
@@ -730,7 +833,7 @@ function initializeSidebarToggle() {
     return;
   }
 
-  const mq = window.matchMedia("(max-width: 900px)");
+  const mq = window.matchMedia("(max-width: 47.9375rem)");
 
   const applyExpandedState = (expanded) => {
     const allowDesktopSidebar = !mq.matches;
@@ -816,6 +919,21 @@ function bindGlobalEvents() {
     const page = PAGE_MAP[current.page] ? current.page : DEFAULT_PAGE;
     const quickAddTab = launcher.dataset.quickAddTab === "todo" ? "todo" : "habit";
 
+    if (modal === "confirm-delete") {
+      const targetElement = launcher.closest(".manage-habit-card");
+      const itemType = launcher.dataset.deleteItemType || "habit";
+      const itemName = launcher.dataset.deleteItemName || "this habit";
+
+      state.pendingDeleteAction = {
+        itemType,
+        itemName,
+        targetElement: targetElement instanceof HTMLElement ? targetElement : null,
+      };
+
+      writeHashState({ page, modal, modalTab: "" });
+      return;
+    }
+
     if (modal === "quick-add") {
       writeHashState({ page, modal, modalTab: quickAddTab });
       return;
@@ -858,7 +976,7 @@ function bindGlobalEvents() {
 }
 
 function initializeShellVisibility() {
-  const mq = window.matchMedia("(max-width: 900px)");
+  const mq = window.matchMedia("(max-width: 47.9375rem)");
   const sidebar = document.querySelector("#app-sidebar");
   const mobileHeader = document.querySelector("#mobile-header");
   const mobileNav = document.querySelector("#mobile-nav");

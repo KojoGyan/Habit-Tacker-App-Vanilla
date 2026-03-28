@@ -10,7 +10,7 @@
       <article data-stat-card="highest-daily" class="card card--metric stat-card stat-card--highest-daily">
         <div class="stat-card__head">
           <h3 class="card__title">Highest Daily Score</h3>
-          <img src="./assets/icons/trophy.svg" alt="" aria-hidden="true" class="stat-card__icon" width="18" height="18" />
+          <img src="./assets/icons/trophy.svg" alt="" aria-hidden="true" class="stat-card__icon" width="20" height="20" />
         </div>
         <p class="card__value">78</p>
         <p class="stat-card__unit">percent</p>
@@ -18,7 +18,7 @@
       <article data-stat-card="weekly-average" class="card card--metric stat-card stat-card--weekly-average">
         <div class="stat-card__head">
           <h3 class="card__title">Weekly Average</h3>
-          <img src="./assets/icons/calendar.svg" alt="" aria-hidden="true" class="stat-card__icon" width="18" height="18" />
+          <img src="./assets/icons/calendar.svg" alt="" aria-hidden="true" class="stat-card__icon" width="20" height="20" />
         </div>
         <p class="card__value">69</p>
         <p class="stat-card__unit">percent</p>
@@ -26,7 +26,7 @@
       <article data-stat-card="monthly-average" class="card card--metric stat-card stat-card--monthly-average">
         <div class="stat-card__head">
           <h3 class="card__title">Monthly Average</h3>
-          <img src="./assets/icons/trending-up.svg" alt="" aria-hidden="true" class="stat-card__icon" width="18" height="18" />
+          <img src="./assets/icons/trending-up.svg" alt="" aria-hidden="true" class="stat-card__icon" width="20" height="20" />
         </div>
         <p class="card__value">63</p>
         <p class="stat-card__unit">percent</p>
@@ -34,7 +34,7 @@
       <article data-stat-card="all-time-average" class="card card--metric stat-card stat-card--all-time-average">
         <div class="stat-card__head">
           <h3 class="card__title">All Time Average</h3>
-          <img src="./assets/icons/infinity.svg" alt="" aria-hidden="true" class="stat-card__icon" width="18" height="18" />
+          <img src="./assets/icons/infinity.svg" alt="" aria-hidden="true" class="stat-card__icon" width="20" height="20" />
         </div>
         <p class="card__value">32</p>
         <p class="stat-card__unit">percent</p>
@@ -72,34 +72,36 @@
 
   <section aria-labelledby="statistics-performance-title" class="stats-page__performance">
     <h2 id="statistics-performance-title">Performance Over Time</h2>
-    <div role="tablist" aria-label="Time ranges" class="segmented-control stats-page__range-tabs" data-stat-range-tabs>
-      <button type="button" role="tab" class="segmented-control__button segmented-control__button--range" aria-selected="true" data-time-range="weekly">Weekly</button>
-      <button type="button" role="tab" class="segmented-control__button segmented-control__button--range" aria-selected="false" data-time-range="monthly">Monthly</button>
-      <button type="button" role="tab" class="segmented-control__button segmented-control__button--range" aria-selected="false" data-time-range="yearly">Yearly</button>
-      <button type="button" role="tab" class="segmented-control__button segmented-control__button--range" aria-selected="false" data-time-range="all">All Time</button>
-    </div>
-
     <article data-placeholder="statistics-chart" class="card card--chart stats-page__chart" data-stat-chart-placeholder>
-      <h3 data-stat-chart-title class="card__title">Daily Performance</h3>
-      <div class="stats-page__chart-layout" aria-hidden="true">
-        <div class="stats-page__chart-axis">
-          <span>100</span>
-          <span>75</span>
-          <span>50</span>
-          <span>25</span>
-          <span>0</span>
-        </div>
-        <div class="stats-page__chart-bars">
-          <div class="stats-page__chart-bar" data-day="Tue"><span style="height: 78%;"></span></div>
-          <div class="stats-page__chart-bar" data-day="Wed"><span style="height: 69%;"></span></div>
-          <div class="stats-page__chart-bar" data-day="Thu"><span style="height: 63%;"></span></div>
-          <div class="stats-page__chart-bar" data-day="Fri"><span style="height: 60%;"></span></div>
-          <div class="stats-page__chart-bar" data-day="Sat"><span style="height: 58%;"></span></div>
-          <div class="stats-page__chart-bar" data-day="Sun"><span style="height: 61%;"></span></div>
-          <div class="stats-page__chart-bar stats-page__chart-bar--accent" data-day="Mon"><span style="height: 66%;"></span></div>
-        </div>
+      <div role="tablist" aria-label="Time ranges" class="segmented-control stats-page__range-tabs stats-page__chart-tabs" data-stat-range-tabs>
+        <button type="button" role="tab" class="segmented-control__button segmented-control__button--range" aria-selected="true" data-time-range="weekly">Weekly</button>
+        <button type="button" role="tab" class="segmented-control__button segmented-control__button--range" aria-selected="false" data-time-range="monthly">Monthly</button>
+        <button type="button" role="tab" class="segmented-control__button segmented-control__button--range" aria-selected="false" data-time-range="yearly">Yearly</button>
+        <button type="button" role="tab" class="segmented-control__button segmented-control__button--range" aria-selected="false" data-time-range="all">All Time</button>
       </div>
-      <p data-stat-chart-copy class="card__body">The weekly tab stats will be shown here.</p>
+
+      <div class="stats-page__chart-body">
+        <h3 data-stat-chart-title class="card__title">Daily Performance</h3>
+        <div class="stats-page__chart-layout" aria-hidden="true">
+          <div class="stats-page__chart-axis">
+            <span>100</span>
+            <span>75</span>
+            <span>50</span>
+            <span>25</span>
+            <span>0</span>
+          </div>
+          <div class="stats-page__chart-bars">
+            <div class="stats-page__chart-bar" data-day="Tue"><span style="height: 78%;"></span></div>
+            <div class="stats-page__chart-bar" data-day="Wed"><span style="height: 69%;"></span></div>
+            <div class="stats-page__chart-bar" data-day="Thu"><span style="height: 63%;"></span></div>
+            <div class="stats-page__chart-bar" data-day="Fri"><span style="height: 60%;"></span></div>
+            <div class="stats-page__chart-bar" data-day="Sat"><span style="height: 58%;"></span></div>
+            <div class="stats-page__chart-bar" data-day="Sun"><span style="height: 61%;"></span></div>
+            <div class="stats-page__chart-bar stats-page__chart-bar--accent" data-day="Mon"><span style="height: 66%;"></span></div>
+          </div>
+        </div>
+        <p data-stat-chart-copy class="card__body sr-only">The weekly tab stats will be shown here.</p>
+      </div>
     </article>
   </section>
 </section>
