@@ -319,7 +319,20 @@ function getTodoLifecycleEvents(todoId) {
     .sort((a, b) => a.changedAtEpochMs - b.changedAtEpochMs);
 }
 
+function getCreatedDateLocal(entry) {
+  if (!Number.isFinite(entry?.createdAtEpochMs)) {
+    return null;
+  }
+
+  return getLocalDateString(new Date(entry.createdAtEpochMs));
+}
+
 function getHabitStateOnDate(habit, dateString) {
+  const createdDateLocal = getCreatedDateLocal(habit);
+  if (createdDateLocal && compareDateStrings(dateString, createdDateLocal) < 0) {
+    return "not_created";
+  }
+
   let currentState = "active";
   const lifecycleEvents = getHabitLifecycleEvents(habit.id);
 
@@ -333,6 +346,11 @@ function getHabitStateOnDate(habit, dateString) {
 }
 
 function getTodoStateOnDate(todo, dateString) {
+  const createdDateLocal = getCreatedDateLocal(todo);
+  if (createdDateLocal && compareDateStrings(dateString, createdDateLocal) < 0) {
+    return "not_created";
+  }
+
   let currentState = "active";
   const lifecycleEvents = getTodoLifecycleEvents(todo.id);
 
@@ -896,13 +914,31 @@ function getDateRangeBackward(endDateString, count) {
   return values;
 }
 
-function getAverageScoreForDates(dateList) {
+function getDateRangeInclusive(startDateString, endDateString) {
+  const values = [];
+  for (let cursor = startDateString; compareDateStrings(cursor, endDateString) <= 0; cursor = addDays(cursor, 1)) {
+    values.push(cursor);
+  }
+  return values;
+}
+
+function hasScorableDataForDate(dateString) {
+  const breakdown = getDailyScoreBreakdown(dateString);
+  return breakdown.denominator > 0;
+}
+
+function getAverageScoreForDates(dateList, { requireData = false } = {}) {
   if (dateList.length === 0) {
     return 0;
   }
 
-  const total = dateList.reduce((sum, dateString) => sum + getDailyScoreBreakdown(dateString).scorePercentRounded, 0);
-  return Math.round(total / dateList.length);
+  const scopedDates = requireData ? dateList.filter((dateString) => hasScorableDataForDate(dateString)) : dateList;
+  if (scopedDates.length === 0) {
+    return 0;
+  }
+
+  const total = scopedDates.reduce((sum, dateString) => sum + getDailyScoreBreakdown(dateString).scorePercentRounded, 0);
+  return Math.round(total / scopedDates.length);
 }
 
 function getRelevantStatsDateSet() {
@@ -919,8 +955,11 @@ function getRelevantStatsDateSet() {
 
 function getSummaryStats() {
   const today = getLocalDateString();
-  const weeklyDates = getDateRangeBackward(today, 7);
-  const monthlyDates = getDateRangeBackward(today, 30);
+  const weekStart = getWeekStartMonday(today);
+  const todayDate = parseLocalDate(today);
+  const monthStart = getLocalDateString(new Date(todayDate.getFullYear(), todayDate.getMonth(), 1));
+  const weeklyDates = getDateRangeInclusive(weekStart, today);
+  const monthlyDates = getDateRangeInclusive(monthStart, today);
   const allRelevantDates = getRelevantStatsDateSet();
 
   let allTimeAverage = 0;
@@ -943,8 +982,8 @@ function getSummaryStats() {
 
   return {
     highestDailyScore,
-    weeklyAverage: getAverageScoreForDates(weeklyDates),
-    monthlyAverage: getAverageScoreForDates(monthlyDates),
+    weeklyAverage: getAverageScoreForDates(weeklyDates, { requireData: true }),
+    monthlyAverage: getAverageScoreForDates(monthlyDates, { requireData: true }),
     allTimeAverage,
     currentStreak: getCurrentStreak(),
     bestStreak: getBestStreak(),
@@ -953,14 +992,16 @@ function getSummaryStats() {
 
 function getSeriesForRange(range) {
   const today = getLocalDateString();
+  const todayDate = parseLocalDate(today);
+  const monthStart = getLocalDateString(new Date(todayDate.getFullYear(), todayDate.getMonth(), 1));
 
   if (range === "weekly") {
     const dates = getDateRangeBackward(today, 7);
     return {
       labels: dates.map((dateString) => formatShortDay(dateString)),
       values: dates.map((dateString) => getDailyScoreBreakdown(dateString).scorePercentRounded),
-      title: "Daily Performance",
-      copy: "Weekly completion trend preview.",
+      title: "Weekly Performance",
+      copy: "Last 7 days completion trend.",
       averageLabel: "Weekly",
     };
   }
@@ -969,17 +1010,24 @@ function getSeriesForRange(range) {
     const labels = [];
     const values = [];
 
-    for (let weekOffset = 3; weekOffset >= 0; weekOffset -= 1) {
-      const weekEnd = addDays(today, -weekOffset * 7);
-      const weekDates = getDateRangeBackward(weekEnd, 7);
-      labels.push(`Week ${4 - weekOffset}`);
-      values.push(getAverageScoreForDates(weekDates));
+    let weekNumber = 1;
+    for (let cursor = monthStart; compareDateStrings(cursor, today) <= 0;) {
+      const weekEnd = compareDateStrings(addDays(cursor, 6), today) <= 0
+        ? addDays(cursor, 6)
+        : today;
+      const weekDates = getDateRangeInclusive(cursor, weekEnd);
+
+      labels.push(`Week ${weekNumber}`);
+      values.push(getAverageScoreForDates(weekDates, { requireData: true }));
+
+      cursor = addDays(weekEnd, 1);
+      weekNumber += 1;
     }
 
     return {
       labels,
       values,
-      title: "Weekly Performance",
+      title: "Monthly Performance",
       copy: "Monthly completion trend preview.",
       averageLabel: "Monthly",
     };
