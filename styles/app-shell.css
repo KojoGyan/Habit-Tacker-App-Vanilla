@@ -920,6 +920,11 @@ body {
   filter: hue-rotate(-18deg) saturate(1.2);
 }
 
+.home-metric__icon--streak-active {
+  filter: none;
+  opacity: 1;
+}
+
 .home-dashboard__metric-card .card__value {
   margin: 0;
   font-family: var(--font-data);
@@ -2215,6 +2220,11 @@ body {
 .dark .tracker-card__action-icon {
   filter: brightness(0) invert(1);
   opacity: 0.82;
+}
+
+.dark .home-metric__icon--streak-active {
+  filter: none;
+  opacity: 1;
 }
 
 .dark .manage-page__filter-icon,
