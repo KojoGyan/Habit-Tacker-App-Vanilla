@@ -2,6 +2,8 @@ import {
   APP_SCHEMA_VERSION,
   APP_STORAGE_KEY,
   DEFAULT_PAGE,
+  DEMO_SESSION_STORAGE_KEY,
+  DEMO_SNAPSHOT_STORAGE_KEY,
   LEGACY_USER_NAME_STORAGE_KEY,
   MODAL_MAP,
   PAGE_MAP,
@@ -29,6 +31,11 @@ const state = {
   pendingDeleteAction: null,
   pendingEditAction: null,
   appData: null,
+  demo: {
+    active: false,
+    dayOffset: 0,
+    hasSnapshot: false,
+  },
   manageMode: "habits",
   manageTodoFilter: "inbox",
   manageSearch: {
@@ -44,6 +51,543 @@ const state = {
     statsPreview: null,
   },
 };
+
+function normalizeDemoSession(raw) {
+  if (!raw || typeof raw !== "object") {
+    return {
+      active: false,
+      dayOffset: 0,
+    };
+  }
+
+  return {
+    active: raw.active === true,
+    dayOffset: Number.isFinite(raw.dayOffset) ? raw.dayOffset : 0,
+  };
+}
+
+function loadDemoSession() {
+  const raw = localStorage.getItem(DEMO_SESSION_STORAGE_KEY);
+  if (!raw) {
+    return normalizeDemoSession(null);
+  }
+
+  try {
+    return normalizeDemoSession(JSON.parse(raw));
+  } catch {
+    return normalizeDemoSession(null);
+  }
+}
+
+function saveDemoSession(session) {
+  const normalized = normalizeDemoSession(session);
+  localStorage.setItem(DEMO_SESSION_STORAGE_KEY, JSON.stringify(normalized));
+  state.demo.active = normalized.active;
+  state.demo.dayOffset = normalized.dayOffset;
+}
+
+function loadDemoSnapshot() {
+  const raw = localStorage.getItem(DEMO_SNAPSHOT_STORAGE_KEY);
+  if (!raw) {
+    state.demo.hasSnapshot = false;
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+    state.demo.hasSnapshot = true;
+    return parsed;
+  } catch {
+    state.demo.hasSnapshot = false;
+    return null;
+  }
+}
+
+function saveDemoSnapshot(snapshot) {
+  localStorage.setItem(DEMO_SNAPSHOT_STORAGE_KEY, JSON.stringify(snapshot));
+  state.demo.hasSnapshot = true;
+}
+
+function clearDemoSnapshot() {
+  localStorage.removeItem(DEMO_SNAPSHOT_STORAGE_KEY);
+  state.demo.hasSnapshot = false;
+}
+
+function getAppDate(baseDate = new Date()) {
+  if (!state.demo.active || state.demo.dayOffset === 0) {
+    return new Date(baseDate);
+  }
+
+  const shifted = new Date(baseDate);
+  shifted.setDate(shifted.getDate() + state.demo.dayOffset);
+  return shifted;
+}
+
+function getTodayLocalDateString() {
+  return getLocalDateString(getAppDate());
+}
+
+function getCurrentHour() {
+  return getAppDate().getHours();
+}
+
+function startDemoSession() {
+  const existingSnapshot = loadDemoSnapshot();
+  if (!existingSnapshot) {
+    saveDemoSnapshot({
+      appData: state.appData,
+      theme: localStorage.getItem(THEME_STORAGE_KEY) || "light",
+      welcomeSeen: localStorage.getItem(WELCOME_SEEN_STORAGE_KEY) || "false",
+      sidebarExpanded: localStorage.getItem(SIDEBAR_EXPANDED_STORAGE_KEY) || "false",
+    });
+  }
+
+  saveDemoSession({ active: true, dayOffset: state.demo.dayOffset });
+}
+
+function shiftDemoTimeByDays(days) {
+  if (!state.demo.active) {
+    startDemoSession();
+  }
+
+  const nextOffset = state.demo.dayOffset + days;
+  saveDemoSession({ active: true, dayOffset: nextOffset });
+}
+
+function loadDemoData() {
+  if (!state.demo.active) {
+    startDemoSession();
+  }
+
+  const nowDate = getAppDate();
+  const now = nowDate.getTime();
+  const dayMs = 24 * 60 * 60 * 1000;
+  const totalDays = 1095;
+  const todayDateLocal = getLocalDateString(nowDate);
+  const startDateLocal = addDays(todayDateLocal, -(totalDays - 1));
+  const toDate = (offset) => addDays(todayDateLocal, offset);
+  const dateFromIndex = (index) => addDays(startDateLocal, index);
+  const seedId = (prefix, n) => `${prefix}-demo-v3-${n}`;
+
+  const dateToEpochMs = (dateString, hour = 9) => {
+    const date = parseLocalDate(dateString);
+    date.setHours(hour, 0, 0, 0);
+    return date.getTime();
+  };
+
+  const getDueBucketAtCompletion = (dueDateLocal, completionDateLocal) => {
+    if (!dueDateLocal) {
+      return "inbox";
+    }
+
+    const comparison = compareDateStrings(dueDateLocal, completionDateLocal);
+    if (comparison < 0) {
+      return "overdue";
+    }
+    if (comparison === 0) {
+      return "due_today";
+    }
+
+    const inOneWeekDate = addDays(completionDateLocal, 7);
+    return compareDateStrings(dueDateLocal, inOneWeekDate) <= 0 ? "upcoming" : "future";
+  };
+
+  mutateAppData((data) => {
+    const isDemoId = (value) => typeof value === "string" && value.includes("-demo-");
+    const isDemoHabitId = (value) => typeof value === "string" && value.includes("habit-demo-");
+    const isDemoTodoId = (value) => typeof value === "string" && value.includes("todo-demo-");
+
+    const existingDemoHabitIds = new Set(
+      data.habits
+        .filter((habit) => isDemoHabitId(habit.id))
+        .map((habit) => habit.id),
+    );
+    const existingDemoTodoIds = new Set(
+      data.todos
+        .filter((todo) => isDemoTodoId(todo.id))
+        .map((todo) => todo.id),
+    );
+
+    data.habits = data.habits.filter((habit) => !isDemoHabitId(habit.id));
+    data.todos = data.todos.filter((todo) => !isDemoTodoId(todo.id));
+    data.habitCompletions = data.habitCompletions.filter(
+      (event) => !isDemoId(event.id) && !existingDemoHabitIds.has(event.habitId) && !isDemoHabitId(event.habitId),
+    );
+    data.todoCompletions = data.todoCompletions.filter(
+      (event) => !isDemoId(event.id) && !existingDemoTodoIds.has(event.todoId) && !isDemoTodoId(event.todoId),
+    );
+    data.habitLifecycleEvents = data.habitLifecycleEvents.filter(
+      (event) => !isDemoId(event.id) && !existingDemoHabitIds.has(event.habitId) && !isDemoHabitId(event.habitId),
+    );
+    data.todoLifecycleEvents = data.todoLifecycleEvents.filter(
+      (event) => !isDemoId(event.id) && !existingDemoTodoIds.has(event.todoId) && !isDemoTodoId(event.todoId),
+    );
+
+    const appendMissing = (collection, entries) => {
+      const idSet = new Set(collection.map((entry) => entry.id));
+      entries.forEach((entry) => {
+        if (!idSet.has(entry.id)) {
+          collection.push(entry);
+          idSet.add(entry.id);
+        }
+      });
+    };
+
+    const forcedStreakRanges = [
+      { start: 620, end: 662 },
+      { start: 1068, end: totalDays - 1 },
+    ];
+    const isForcedStreakDay = (index) =>
+      forcedStreakRanges.some((range) => index >= range.start && index <= range.end);
+    const isGlobalRestDay = (index) => index % 29 === 0 && !isForcedStreakDay(index);
+    const isIndexInWindow = (index, windows) => windows.some(([start, end]) => index >= start && index <= end);
+
+    const habitBlueprints = [
+      {
+        seedNumber: 1,
+        name: "Morning Meditation",
+        frequency: "daily",
+        lifecycleState: "active",
+        deletedIndex: null,
+        activeWindows: [[10, totalDays - 1]],
+        transitions: [],
+        completionRule: (index) => index % 9 !== 0 && index % 17 !== 4,
+      },
+      {
+        seedNumber: 2,
+        name: "Read 30 Minutes",
+        frequency: "daily",
+        lifecycleState: "paused",
+        deletedIndex: null,
+        activeWindows: [[40, 1039]],
+        transitions: [{ effectiveIndex: 1040, toState: "paused" }],
+        completionRule: (index) => index % 7 !== 1 && index % 13 !== 6,
+      },
+      {
+        seedNumber: 3,
+        name: "Evening Walk",
+        frequency: "daily",
+        lifecycleState: "deleted",
+        deletedIndex: 765,
+        activeWindows: [[120, 764]],
+        transitions: [{ effectiveIndex: 765, toState: "deleted" }],
+        completionRule: (index) => index % 5 !== 0 && index % 11 !== 2,
+      },
+      {
+        seedNumber: 4,
+        name: "Weekly Review",
+        frequency: "weekly",
+        lifecycleState: "active",
+        deletedIndex: null,
+        activeWindows: [[30, totalDays - 1]],
+        transitions: [],
+        completionRule: (_index, _dateString, weekIndex) => weekIndex % 6 !== 2,
+      },
+      {
+        seedNumber: 5,
+        name: "Deep Clean",
+        frequency: "weekly",
+        lifecycleState: "paused",
+        deletedIndex: null,
+        activeWindows: [[200, 934]],
+        transitions: [{ effectiveIndex: 935, toState: "paused" }],
+        completionRule: (_index, _dateString, weekIndex) => weekIndex % 4 !== 1,
+      },
+      {
+        seedNumber: 6,
+        name: "Hydration Tracker",
+        frequency: "daily",
+        lifecycleState: "active",
+        deletedIndex: null,
+        activeWindows: [[300, 579], [660, totalDays - 1]],
+        transitions: [
+          { effectiveIndex: 580, toState: "paused" },
+          { effectiveIndex: 660, toState: "active" },
+        ],
+        completionRule: (index) => index % 8 !== 3 && index % 12 !== 7,
+      },
+    ];
+
+    const habits = habitBlueprints.map((blueprint) => {
+      const createdIndex = blueprint.activeWindows[0][0];
+      const deletedAtEpochMs = Number.isFinite(blueprint.deletedIndex)
+        ? dateToEpochMs(dateFromIndex(blueprint.deletedIndex), 9)
+        : null;
+
+      return {
+        id: seedId("habit", blueprint.seedNumber),
+        name: blueprint.name,
+        frequency: blueprint.frequency,
+        lifecycleState: blueprint.lifecycleState,
+        createdAtEpochMs: dateToEpochMs(dateFromIndex(createdIndex), 8),
+        updatedAtEpochMs: now,
+        deletedAtEpochMs,
+      };
+    });
+
+    let habitLifecycleCounter = 1;
+    const habitLifecycleEvents = [];
+    habitBlueprints.forEach((blueprint) => {
+      const habitId = seedId("habit", blueprint.seedNumber);
+      let fromState = "active";
+
+      [...blueprint.transitions]
+        .sort((left, right) => left.effectiveIndex - right.effectiveIndex)
+        .forEach((transition) => {
+          const effectiveDateLocal = dateFromIndex(transition.effectiveIndex);
+          habitLifecycleEvents.push({
+            id: seedId("hle", habitLifecycleCounter),
+            habitId,
+            fromState,
+            toState: transition.toState,
+            changedAtEpochMs: dateToEpochMs(effectiveDateLocal, 7),
+            effectiveFromDateLocal: effectiveDateLocal,
+            reason: "demo_seed",
+          });
+
+          habitLifecycleCounter += 1;
+          fromState = transition.toState;
+        });
+    });
+
+    let habitCompletionCounter = 1;
+    const completionKeySet = new Set();
+    const completionDateSet = new Set();
+    const habitCompletions = [];
+
+    const addHabitCompletion = (habitId, frequency, dateString) => {
+      const key = `${habitId}|${dateString}`;
+      if (completionKeySet.has(key)) {
+        return;
+      }
+
+      completionKeySet.add(key);
+      completionDateSet.add(dateString);
+      habitCompletions.push({
+        id: seedId("hce", habitCompletionCounter),
+        habitId,
+        completionDateLocal: dateString,
+        completionWeekKey: getWeekKey(dateString),
+        completedAtEpochMs: dateToEpochMs(dateString, 20),
+        frequencyAtCompletion: frequency,
+      });
+
+      habitCompletionCounter += 1;
+    };
+
+    habitBlueprints.forEach((blueprint) => {
+      const habitId = seedId("habit", blueprint.seedNumber);
+
+      for (let index = 0; index < totalDays; index += 1) {
+        if (!isIndexInWindow(index, blueprint.activeWindows) || isGlobalRestDay(index)) {
+          continue;
+        }
+
+        const dateString = dateFromIndex(index);
+        const weekIndex = Math.floor(index / 7);
+
+        if (blueprint.frequency === "weekly") {
+          const day = parseLocalDate(dateString).getDay();
+          if (day !== 1 || !blueprint.completionRule(index, dateString, weekIndex)) {
+            continue;
+          }
+
+          addHabitCompletion(habitId, "weekly", dateString);
+          continue;
+        }
+
+        if (!blueprint.completionRule(index, dateString, weekIndex)) {
+          continue;
+        }
+
+        addHabitCompletion(habitId, "daily", dateString);
+      }
+    });
+
+    const anchorHabitId = seedId("habit", 1);
+    const anchorHabitWindows = habitBlueprints[0].activeWindows;
+    forcedStreakRanges.forEach((range) => {
+      for (let index = range.start; index <= range.end; index += 1) {
+        if (!isIndexInWindow(index, anchorHabitWindows)) {
+          continue;
+        }
+
+        const dateString = dateFromIndex(index);
+        if (!completionDateSet.has(dateString)) {
+          addHabitCompletion(anchorHabitId, "daily", dateString);
+        }
+      }
+    });
+
+    const todos = [
+      {
+        id: seedId("todo", 1),
+        text: "Brainstorm content ideas",
+        dueDateLocal: null,
+        lifecycleState: "active",
+        createdAtEpochMs: dateToEpochMs(toDate(-12), 9),
+        updatedAtEpochMs: now,
+        deletedAtEpochMs: null,
+      },
+      {
+        id: seedId("todo", 2),
+        text: "Submit internship application",
+        dueDateLocal: toDate(-3),
+        lifecycleState: "active",
+        createdAtEpochMs: dateToEpochMs(toDate(-14), 9),
+        updatedAtEpochMs: now,
+        deletedAtEpochMs: null,
+      },
+      {
+        id: seedId("todo", 3),
+        text: "Finalize sprint checklist",
+        dueDateLocal: toDate(0),
+        lifecycleState: "active",
+        createdAtEpochMs: dateToEpochMs(toDate(-2), 9),
+        updatedAtEpochMs: now,
+        deletedAtEpochMs: null,
+      },
+      {
+        id: seedId("todo", 4),
+        text: "Book campus mentoring session",
+        dueDateLocal: toDate(4),
+        lifecycleState: "active",
+        createdAtEpochMs: dateToEpochMs(toDate(-1), 9),
+        updatedAtEpochMs: now,
+        deletedAtEpochMs: null,
+      },
+      {
+        id: seedId("todo", 5),
+        text: "Pay utility bill",
+        dueDateLocal: toDate(-2),
+        lifecycleState: "active",
+        createdAtEpochMs: dateToEpochMs(toDate(-8), 9),
+        updatedAtEpochMs: now,
+        deletedAtEpochMs: null,
+      },
+      {
+        id: seedId("todo", 6),
+        text: "Renew gym membership",
+        dueDateLocal: toDate(-420),
+        lifecycleState: "deleted",
+        createdAtEpochMs: dateToEpochMs(toDate(-450), 9),
+        updatedAtEpochMs: dateToEpochMs(toDate(-400), 10),
+        deletedAtEpochMs: dateToEpochMs(toDate(-400), 10),
+      },
+    ];
+
+    const todoLifecycleEvents = [
+      {
+        id: seedId("tle", 1),
+        todoId: seedId("todo", 6),
+        fromState: "active",
+        toState: "deleted",
+        changedAtEpochMs: dateToEpochMs(toDate(-400), 8),
+        effectiveFromDateLocal: toDate(-400),
+        reason: "demo_seed",
+      },
+    ];
+
+    const monthlyTodoPlans = [];
+    let todoSeedCounter = 7;
+    for (let monthOffset = 35; monthOffset >= 1; monthOffset -= 1) {
+      const monthDate = new Date(nowDate.getFullYear(), nowDate.getMonth() - monthOffset, 1);
+      const monthLabel = monthDate.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+      const dueDateLocal = getLocalDateString(
+        new Date(monthDate.getFullYear(), monthDate.getMonth(), 10 + (monthOffset % 12)),
+      );
+
+      let completionDateLocal = addDays(dueDateLocal, [-1, 0, 2][monthOffset % 3]);
+      if (compareDateStrings(completionDateLocal, todayDateLocal) > 0) {
+        completionDateLocal = todayDateLocal;
+      }
+
+      const todoId = seedId("todo", todoSeedCounter);
+      todos.push({
+        id: todoId,
+        text: `Monthly planning check-in (${monthLabel})`,
+        dueDateLocal,
+        lifecycleState: "active",
+        createdAtEpochMs: dateToEpochMs(addDays(dueDateLocal, -10), 9),
+        updatedAtEpochMs: dateToEpochMs(completionDateLocal, 18),
+        deletedAtEpochMs: null,
+      });
+
+      monthlyTodoPlans.push({
+        todoId,
+        dueDateLocal,
+        completionDateLocal,
+      });
+
+      todoSeedCounter += 1;
+    }
+
+    const todoCompletions = [
+      {
+        id: seedId("tce", 1),
+        todoId: seedId("todo", 5),
+        completionDateLocal: toDate(-1),
+        dueDateLocalAtCompletion: toDate(-2),
+        dueBucketAtCompletion: getDueBucketAtCompletion(toDate(-2), toDate(-1)),
+        completedAtEpochMs: dateToEpochMs(toDate(-1), 20),
+      },
+    ];
+
+    monthlyTodoPlans.forEach((plan, index) => {
+      todoCompletions.push({
+        id: seedId("tce", index + 2),
+        todoId: plan.todoId,
+        completionDateLocal: plan.completionDateLocal,
+        dueDateLocalAtCompletion: plan.dueDateLocal,
+        dueBucketAtCompletion: getDueBucketAtCompletion(plan.dueDateLocal, plan.completionDateLocal),
+        completedAtEpochMs: dateToEpochMs(plan.completionDateLocal, 20),
+      });
+    });
+
+    appendMissing(data.habits, habits);
+    appendMissing(data.habitLifecycleEvents, habitLifecycleEvents);
+    appendMissing(data.habitCompletions, habitCompletions);
+    appendMissing(data.todos, todos);
+    appendMissing(data.todoLifecycleEvents, todoLifecycleEvents);
+    appendMissing(data.todoCompletions, todoCompletions);
+
+    if (!data.profile.firstName) {
+      data.profile.firstName = "Demo User";
+      data.profile.createdAtEpochMs = now - 180 * dayMs;
+    }
+  });
+
+  localStorage.setItem(WELCOME_SEEN_STORAGE_KEY, "true");
+}
+
+function resetDemoSession() {
+  const snapshot = loadDemoSnapshot();
+  if (!snapshot) {
+    saveDemoSession({ active: false, dayOffset: 0 });
+    clearDemoSnapshot();
+    return;
+  }
+
+  if (snapshot.appData && typeof snapshot.appData === "object") {
+    state.appData = hydrateAppData(snapshot.appData);
+    saveAppData(state.appData);
+  }
+
+  if (typeof snapshot.theme === "string") {
+    localStorage.setItem(THEME_STORAGE_KEY, snapshot.theme);
+  }
+
+  if (typeof snapshot.welcomeSeen === "string") {
+    localStorage.setItem(WELCOME_SEEN_STORAGE_KEY, snapshot.welcomeSeen);
+  }
+
+  if (typeof snapshot.sidebarExpanded === "string") {
+    localStorage.setItem(SIDEBAR_EXPANDED_STORAGE_KEY, snapshot.sidebarExpanded);
+  }
+
+  saveDemoSession({ active: false, dayOffset: 0 });
+  clearDemoSnapshot();
+}
 
 function parseHashState() {
   const rawHash = window.location.hash.startsWith("#")
@@ -281,7 +825,7 @@ function shouldAutoShowWelcome() {
 }
 
 function nowEpochMs() {
-  return Date.now();
+  return getAppDate().getTime();
 }
 
 function escapeHtml(value) {
@@ -385,7 +929,7 @@ function canEditTodoDueDate(todo) {
     return true;
   }
 
-  const today = getLocalDateString();
+  const today = getTodayLocalDateString();
   return compareDateStrings(completion.completionDateLocal, today) >= 0;
 }
 
@@ -727,7 +1271,7 @@ function getGlobalHabitCompletionDateSet() {
 
 function getCurrentStreak() {
   const completionDates = getGlobalHabitCompletionDateSet();
-  const today = getLocalDateString();
+  const today = getTodayLocalDateString();
   let cursor = today;
   let streak = 0;
 
@@ -774,7 +1318,7 @@ function getHabitStreak(habit) {
   if (habit.frequency === "weekly") {
     const completionWeekSet = new Set(completions.map((event) => event.completionWeekKey));
     let streak = 0;
-    let cursor = getWeekStartMonday(getLocalDateString());
+    let cursor = getWeekStartMonday(getTodayLocalDateString());
 
     while (completionWeekSet.has(getWeekKey(cursor))) {
       streak += 1;
@@ -786,7 +1330,7 @@ function getHabitStreak(habit) {
 
   const completionDates = new Set(completions.map((event) => event.completionDateLocal));
   let streak = 0;
-  let cursor = getLocalDateString();
+  let cursor = getTodayLocalDateString();
 
   while (completionDates.has(cursor)) {
     streak += 1;
@@ -834,7 +1378,7 @@ function getHomeTodosForDate(dateString) {
     .filter((todo) => !todo.completed && (todo.bucket === "due_today" || todo.bucket === "overdue"))
     .sort((left, right) => {
       if (!left.dueDateLocal && !right.dueDateLocal) {
-        return left.createdAtEpochMs - right.createdAtEpochMs;
+        return right.createdAtEpochMs - left.createdAtEpochMs;
       }
       if (!left.dueDateLocal) {
         return 1;
@@ -842,7 +1386,11 @@ function getHomeTodosForDate(dateString) {
       if (!right.dueDateLocal) {
         return -1;
       }
-      return compareDateStrings(left.dueDateLocal, right.dueDateLocal);
+      const dueDateOrder = compareDateStrings(right.dueDateLocal, left.dueDateLocal);
+      if (dueDateOrder !== 0) {
+        return dueDateOrder;
+      }
+      return right.createdAtEpochMs - left.createdAtEpochMs;
     });
 }
 
@@ -868,32 +1416,26 @@ function getDailyScoreBreakdown(dateString) {
     return weekCompletions.some((event) => event.completionDateLocal === dateString);
   });
 
-  const dueTodayTodosEligible = state.appData.todos.filter(
-    (todo) => getTodoStateOnDate(todo, dateString) === "active" && todo.dueDateLocal === dateString,
-  );
+  const homeTodosEligible = getHomeTodosForDate(dateString);
 
   const habitCompletedToday = habitsEligible.filter(
     (habit) => Boolean(getHabitCompletionEventForDate(habit.id, dateString)),
   ).length;
 
-  const dueTodayTodoCompleted = dueTodayTodosEligible.filter((todo) => {
-    const completion = getTodoCompletionEvent(todo.id);
-    return completion && completion.completionDateLocal === dateString;
-  }).length;
-
-  const overdueTodoCompletionsToday = state.appData.todoCompletions.filter(
-    (event) => event.completionDateLocal === dateString && event.dueBucketAtCompletion === "overdue",
+  const dueOrOverdueTodoCompletionsToday = state.appData.todoCompletions.filter(
+    (event) =>
+      event.completionDateLocal === dateString
+      && (event.dueBucketAtCompletion === "due_today" || event.dueBucketAtCompletion === "overdue"),
   ).length;
 
   const denominator =
     habitsEligible.length
-    + dueTodayTodosEligible.length
-    + overdueTodoCompletionsToday;
+    + homeTodosEligible.length
+    + dueOrOverdueTodoCompletionsToday;
 
   const numerator =
     habitCompletedToday
-    + dueTodayTodoCompleted
-    + overdueTodoCompletionsToday;
+    + dueOrOverdueTodoCompletionsToday;
 
   const scoreRatio = denominator === 0 ? 0 : numerator / denominator;
   const scorePercentRounded = denominator === 0 ? 0 : Math.round(scoreRatio * 100);
@@ -942,7 +1484,7 @@ function getAverageScoreForDates(dateList, { requireData = false } = {}) {
 }
 
 function getRelevantStatsDateSet() {
-  const set = new Set([getLocalDateString()]);
+  const set = new Set([getTodayLocalDateString()]);
   state.appData.habitCompletions.forEach((event) => set.add(event.completionDateLocal));
   state.appData.todoCompletions.forEach((event) => set.add(event.completionDateLocal));
   state.appData.todos.forEach((todo) => {
@@ -954,7 +1496,7 @@ function getRelevantStatsDateSet() {
 }
 
 function getSummaryStats() {
-  const today = getLocalDateString();
+  const today = getTodayLocalDateString();
   const weekStart = getWeekStartMonday(today);
   const todayDate = parseLocalDate(today);
   const monthStart = getLocalDateString(new Date(todayDate.getFullYear(), todayDate.getMonth(), 1));
@@ -991,7 +1533,7 @@ function getSummaryStats() {
 }
 
 function getSeriesForRange(range) {
-  const today = getLocalDateString();
+  const today = getTodayLocalDateString();
   const todayDate = parseLocalDate(today);
   const monthStart = getLocalDateString(new Date(todayDate.getFullYear(), todayDate.getMonth(), 1));
 
@@ -1033,6 +1575,38 @@ function getSeriesForRange(range) {
     };
   }
 
+  if (range === "all") {
+    const labels = [];
+    const values = [];
+    const relevantDates = getRelevantStatsDateSet();
+    const firstDate = relevantDates[0] || today;
+    const firstYear = parseLocalDate(firstDate).getFullYear();
+    const currentYear = todayDate.getFullYear();
+
+    for (let year = firstYear; year <= currentYear; year += 1) {
+      const yearStart = getLocalDateString(new Date(year, 0, 1));
+      const yearEnd = year === currentYear
+        ? today
+        : getLocalDateString(new Date(year, 11, 31));
+      const boundedStart = compareDateStrings(yearStart, firstDate) < 0 ? firstDate : yearStart;
+
+      if (compareDateStrings(boundedStart, yearEnd) > 0) {
+        continue;
+      }
+
+      labels.push(String(year));
+      values.push(getAverageScoreForDates(getDateRangeInclusive(boundedStart, yearEnd)));
+    }
+
+    return {
+      labels,
+      values,
+      title: "All Time Performance",
+      copy: "Year-on-year completion trend.",
+      averageLabel: "All Time",
+    };
+  }
+
   const labels = [];
   const values = [];
   const now = parseLocalDate(today);
@@ -1055,9 +1629,9 @@ function getSeriesForRange(range) {
   return {
     labels,
     values,
-    title: range === "all" ? "All Time Performance" : "Monthly Performance",
-    copy: range === "all" ? "All-time completion trend preview." : "Yearly completion trend preview.",
-    averageLabel: range === "all" ? "All Time" : "Yearly",
+    title: "Yearly Performance",
+    copy: "Yearly completion trend preview.",
+    averageLabel: "Yearly",
   };
 }
 
@@ -1065,7 +1639,7 @@ function updateHomeGreeting() {
   const title = document.querySelector("#home-title");
   const dateCopy = document.querySelector("[data-home-date]");
   const savedName = (state.appData.profile.firstName || "").trim();
-  const hour = new Date().getHours();
+  const hour = getCurrentHour();
   const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
   if (title instanceof HTMLElement) {
@@ -1073,7 +1647,7 @@ function updateHomeGreeting() {
   }
 
   if (dateCopy instanceof HTMLElement) {
-    dateCopy.textContent = new Date().toLocaleDateString("en-US", {
+    dateCopy.textContent = getAppDate().toLocaleDateString("en-US", {
       weekday: "long",
       year: "numeric",
       month: "long",
@@ -1082,8 +1656,44 @@ function updateHomeGreeting() {
   }
 }
 
+function renderDemoModalState(modalRoot) {
+  const status = modalRoot.querySelector("[data-demo-status]");
+  const date = modalRoot.querySelector("[data-demo-date]");
+  const offset = modalRoot.querySelector("[data-demo-offset]");
+  const startButton = modalRoot.querySelector("[data-demo-start]");
+  const resetButton = modalRoot.querySelector("[data-demo-reset]");
+
+  if (status instanceof HTMLElement) {
+    status.textContent = state.demo.active ? "Demo mode is active." : "Demo mode is inactive.";
+  }
+
+  if (date instanceof HTMLElement) {
+    date.textContent = getAppDate().toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
+
+  if (offset instanceof HTMLElement) {
+    const days = Math.abs(state.demo.dayOffset);
+    const direction = state.demo.dayOffset >= 0 ? "+" : "-";
+    offset.textContent = `${direction}${days} day${days === 1 ? "" : "s"}`;
+  }
+
+  if (startButton instanceof HTMLButtonElement) {
+    startButton.disabled = state.demo.active;
+    startButton.textContent = state.demo.active ? "Demo Session Running" : "Start Demo Session";
+  }
+
+  if (resetButton instanceof HTMLButtonElement) {
+    resetButton.disabled = !state.demo.hasSnapshot;
+  }
+}
+
 function renderHomeMetrics() {
-  const today = getLocalDateString();
+  const today = getTodayLocalDateString();
   const score = getDailyScoreBreakdown(today);
   const summary = getSummaryStats();
 
@@ -1121,7 +1731,7 @@ function renderHomeWeeklyChart() {
 }
 
 function renderHomeHabitList() {
-  const today = getLocalDateString();
+  const today = getTodayLocalDateString();
   const items = getHomeHabitsForDate(today);
   const list = document.querySelector('[data-tracker-list="habit"]');
   const card = document.querySelector('[data-tracker="habits"]');
@@ -1155,7 +1765,7 @@ function renderHomeHabitList() {
 }
 
 function renderHomeTodoList() {
-  const today = getLocalDateString();
+  const today = getTodayLocalDateString();
   const items = getHomeTodosForDate(today);
   const list = document.querySelector('[data-tracker-list="todo"]');
   const card = document.querySelector('[data-tracker="todos"]');
@@ -1197,7 +1807,7 @@ function renderHomePageState() {
 }
 
 function getManageHabits(searchTerm) {
-  const today = getLocalDateString();
+  const today = getTodayLocalDateString();
   const normalizedSearch = searchTerm.trim().toLowerCase();
   return state.appData.habits
     .filter((habit) => getHabitStateOnDate(habit, today) !== "deleted")
@@ -1211,7 +1821,7 @@ function getManageHabits(searchTerm) {
 }
 
 function getManageTodos(filter, searchTerm) {
-  const today = getLocalDateString();
+  const today = getTodayLocalDateString();
   const normalizedSearch = searchTerm.trim().toLowerCase();
 
   const base = state.appData.todos
@@ -1242,8 +1852,22 @@ function getManageTodos(filter, searchTerm) {
   }).filter((todo) => !normalizedSearch || todo.text.toLowerCase().includes(normalizedSearch));
 
   return filtered.sort((left, right) => {
+    if (filter === "completed") {
+      const leftCompletionDate = left.completionEvent?.completionDateLocal || "";
+      const rightCompletionDate = right.completionEvent?.completionDateLocal || "";
+      if (leftCompletionDate && rightCompletionDate && leftCompletionDate !== rightCompletionDate) {
+        return compareDateStrings(rightCompletionDate, leftCompletionDate);
+      }
+      if (leftCompletionDate && !rightCompletionDate) {
+        return -1;
+      }
+      if (!leftCompletionDate && rightCompletionDate) {
+        return 1;
+      }
+    }
+
     if (!left.dueDateLocal && !right.dueDateLocal) {
-      return left.createdAtEpochMs - right.createdAtEpochMs;
+      return right.createdAtEpochMs - left.createdAtEpochMs;
     }
     if (!left.dueDateLocal) {
       return 1;
@@ -1251,7 +1875,13 @@ function getManageTodos(filter, searchTerm) {
     if (!right.dueDateLocal) {
       return -1;
     }
-    return compareDateStrings(left.dueDateLocal, right.dueDateLocal);
+
+    const dueDateOrder = compareDateStrings(right.dueDateLocal, left.dueDateLocal);
+    if (dueDateOrder !== 0) {
+      return dueDateOrder;
+    }
+
+    return right.createdAtEpochMs - left.createdAtEpochMs;
   });
 }
 
@@ -1661,7 +2291,7 @@ function setupCheckToggles() {
         return;
       }
 
-      const today = getLocalDateString();
+      const today = getTodayLocalDateString();
       if (itemType === "habit") {
         commandToggleHabitCompletion(itemId, today);
       } else {
@@ -1745,7 +2375,7 @@ function setupManageView() {
       if (!habitId) {
         return;
       }
-      commandSetHabitActiveState(habitId, target.checked, getLocalDateString());
+      commandSetHabitActiveState(habitId, target.checked, getTodayLocalDateString());
       refreshUiAfterDataMutation();
     });
 
@@ -2211,7 +2841,7 @@ function bindModalInteractiveBehavior(modalRoot, modalKey) {
           return;
         }
 
-        const today = getLocalDateString();
+        const today = getTodayLocalDateString();
         if (action.itemType === "todo") {
           commandDeleteTodo(action.itemId, today);
         } else {
@@ -2241,6 +2871,52 @@ function bindModalInteractiveBehavior(modalRoot, modalKey) {
         renderStatsPreviewModalState(modalRoot);
       });
     });
+  }
+
+  if (modalKey === "demo") {
+    renderDemoModalState(modalRoot);
+
+    const startButton = modalRoot.querySelector("[data-demo-start]");
+    const loadDataButton = modalRoot.querySelector("[data-demo-load-data]");
+    const resetButton = modalRoot.querySelector("[data-demo-reset]");
+    const shiftButtons = modalRoot.querySelectorAll("[data-demo-shift-days]");
+
+    if (startButton instanceof HTMLButtonElement) {
+      startButton.addEventListener("click", () => {
+        startDemoSession();
+        refreshUiAfterDataMutation();
+      });
+    }
+
+    shiftButtons.forEach((button) => {
+      if (!(button instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      button.addEventListener("click", () => {
+        const days = Number.parseInt(button.dataset.demoShiftDays || "0", 10);
+        if (!Number.isFinite(days) || days === 0) {
+          return;
+        }
+
+        shiftDemoTimeByDays(days);
+        refreshUiAfterDataMutation();
+      });
+    });
+
+    if (loadDataButton instanceof HTMLButtonElement) {
+      loadDataButton.addEventListener("click", () => {
+        loadDemoData();
+        refreshUiAfterDataMutation();
+      });
+    }
+
+    if (resetButton instanceof HTMLButtonElement) {
+      resetButton.addEventListener("click", () => {
+        resetDemoSession();
+        window.location.reload();
+      });
+    }
   }
 }
 
@@ -2423,6 +3099,13 @@ function refreshUiAfterDataMutation() {
       renderStatsPreviewModalState(modalRoot);
     }
   }
+
+  if (state.activeModal === "demo") {
+    const modalRoot = document.querySelector("#modal-root .modal");
+    if (modalRoot instanceof HTMLElement) {
+      renderDemoModalState(modalRoot);
+    }
+  }
 }
 
 async function syncFromHash() {
@@ -2549,6 +3232,8 @@ function bindGlobalEvents() {
 }
 
 async function bootstrap() {
+  saveDemoSession(loadDemoSession());
+  loadDemoSnapshot();
   state.appData = loadAppDataFromStorage();
 
   ensureThemeButtons();

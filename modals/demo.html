@@ -1,0 +1,44 @@
+<section class="modal modal--demo" aria-hidden="false">
+  <div class="modal__backdrop" data-modal-backdrop="true"></div>
+
+  <div class="modal__panel modal__panel--edit" role="dialog" aria-modal="true" aria-labelledby="demo-controls-title">
+    <div class="modal__header modal__header--split">
+      <h2 id="demo-controls-title" class="modal__title">Demo Controls</h2>
+      <button type="button" class="modal__close" data-modal-close aria-label="Close demo controls">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    <div class="modal__body modal-form">
+      <p class="muted-copy" data-demo-status>Demo mode is inactive.</p>
+
+      <div class="metric-grid metric-grid--three">
+        <article class="card card--metric">
+          <div class="card__label">App Date</div>
+          <div class="card__value" data-demo-date>--</div>
+        </article>
+
+        <article class="card card--metric">
+          <div class="card__label">Offset</div>
+          <div class="card__value" data-demo-offset>+0 days</div>
+        </article>
+
+        <article class="card card--metric">
+          <div class="card__label">Snapshot</div>
+          <div class="card__value">Stored</div>
+          <div class="card__unit">auto on start</div>
+        </article>
+      </div>
+
+      <div class="modal__footer dialog-actions">
+        <button type="button" class="dialog-actions__button dialog-actions__button--secondary" data-demo-start>Start Demo Session</button>
+        <button type="button" class="dialog-actions__button dialog-actions__button--secondary" data-demo-shift-days="1">+1 Day</button>
+        <button type="button" class="dialog-actions__button dialog-actions__button--secondary" data-demo-shift-days="7">+1 Week</button>
+        <button type="button" class="dialog-actions__button dialog-actions__button--secondary" data-demo-load-data>Load Demo Data</button>
+        <button type="button" class="dialog-actions__button dialog-actions__button--primary" data-demo-reset>Reset and Restore</button>
+      </div>
+
+      <p class="muted-copy">Start a session to snapshot current state. You can shift app time, load seeded demo content, and fully restore your pre-demo data with Reset and Restore.</p>
+    </div>
+  </div>
+</section>

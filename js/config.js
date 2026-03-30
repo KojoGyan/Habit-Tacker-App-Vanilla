@@ -7,6 +7,7 @@ export const PAGE_MAP = {
 export const MODAL_MAP = {
   welcome: "./modals/welcome.html",
   "quick-add": "./modals/quick-add.html",
+  demo: "./modals/demo.html",
   "confirm-delete": "./modals/confirm-delete.html",
   "edit-habit": "./modals/edit-habit.html",
   "edit-todo": "./modals/edit-todo.html",
@@ -21,3 +22,5 @@ export const LEGACY_USER_NAME_STORAGE_KEY = "sproutly-user-name";
 export const APP_STORAGE_KEY = "sproutly-app-storage-v1";
 export const APP_SCHEMA_VERSION = 1;
 export const WELCOME_SEEN_STORAGE_KEY = "sproutly-welcome-seen-v1";
+export const DEMO_SESSION_STORAGE_KEY = "sproutly-demo-session-v1";
+export const DEMO_SNAPSHOT_STORAGE_KEY = "sproutly-demo-snapshot-v1";
