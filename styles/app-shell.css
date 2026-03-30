@@ -169,7 +169,7 @@ body {
   display: grid;
   grid-template-columns: 5rem 1fr;
   gap: 0;
-  width: min(90vw, 65.75rem);
+  width: min(90vw, 68rem);
   height: min(90vh, 38.65rem);
   margin: 0;
   background: var(--color-surface);
@@ -967,6 +967,17 @@ body {
   gap: 1.5rem;
 }
 
+.home-weekly-chart-canvas-wrap {
+  position: relative;
+  min-height: 12.5rem;
+  height: 12.5rem;
+}
+
+.home-weekly-chart-canvas-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .weekly-chart__layout {
   display: grid;
   grid-template-columns: 1.3125rem 1fr;
@@ -1039,7 +1050,7 @@ body {
 }
 
 .tracker-card {
-  max-height: 25rem;
+  max-height: 30rem;
 }
 
 .tracker-card--habits {
@@ -1980,6 +1991,17 @@ body {
   line-height: 1.56;
   font-weight: var(--font-weight-normal);
   color: var(--color-text);
+}
+
+.stats-page__chart-canvas-wrap {
+  position: relative;
+  min-height: 25rem;
+  height: 25rem;
+}
+
+.stats-page__chart-canvas-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .stats-page__chart-layout {
@@ -2998,6 +3020,18 @@ button:hover {
   line-height: 1;
 }
 
+.stats-preview-chart-canvas-wrap {
+  position: relative;
+  min-height: 12rem;
+  height: 12rem;
+  margin-bottom: 0.875rem;
+}
+
+.stats-preview-chart-canvas-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .card__body {
   margin: 0;
   color: var(--color-muted-text);
@@ -3632,6 +3666,11 @@ button:hover {
   .weekly-chart {
     gap: 1rem;
     padding: 1.5rem;
+  }
+
+  .home-weekly-chart-canvas-wrap {
+    min-height: 11.25rem;
+    height: 11.25rem;
   }
 
   .weekly-chart__layout {

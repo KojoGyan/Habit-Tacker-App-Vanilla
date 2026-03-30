@@ -1,0 +1,31 @@
+<section class="modal modal--edit-item" aria-hidden="false">
+  <div class="modal__backdrop" data-modal-backdrop="true"></div>
+
+  <div class="modal__panel modal__panel--edit" role="dialog" aria-modal="true" aria-labelledby="edit-todo-title">
+    <div class="modal__header modal__header--split">
+      <h2 id="edit-todo-title" class="modal__title">Edit Todo</h2>
+      <button type="button" class="modal__close" data-modal-close aria-label="Close edit todo dialog">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    <form class="modal__body modal-form" data-edit-todo-form>
+      <div class="form-field">
+        <label for="edit-todo-text" class="form-field__label">Todo text</label>
+        <input id="edit-todo-text" type="text" name="text" data-edit-todo-input required class="form-field__input" />
+        <p data-edit-todo-error class="form-field__error" hidden>Please enter todo text.</p>
+      </div>
+
+      <div class="form-field">
+        <label for="edit-todo-due-date" class="form-field__label">Due date (optional)</label>
+        <input id="edit-todo-due-date" type="date" name="dueDate" data-edit-todo-due-date-input class="form-field__input" />
+        <p data-edit-todo-date-lock-note class="muted-copy" hidden>Due date is locked because this todo was completed on a past date.</p>
+      </div>
+
+      <div class="modal__footer dialog-actions">
+        <button type="button" class="dialog-actions__button dialog-actions__button--secondary" data-modal-close>Cancel</button>
+        <button type="submit" class="dialog-actions__button dialog-actions__button--primary">Save changes</button>
+      </div>
+    </form>
+  </div>
+</section>

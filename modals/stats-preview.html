@@ -45,23 +45,8 @@
       <div class="modal__section modal__section--chart">
         <h3 class="modal__section-title" data-stats-performance-title>Performance - Weekly</h3>
         <div class="card card--chart" data-stats-modal-chart>
-          <div class="stats-preview-chart-layout">
-            <div class="stats-preview-chart-axis" aria-hidden="true">
-              <span>100</span>
-              <span>75</span>
-              <span>50</span>
-              <span>25</span>
-              <span>0</span>
-            </div>
-            <div class="stats-preview-chart" data-stats-chart-bars>
-              <div class="stats-preview-chart__bar" data-day="Tue"><span style="height: 70%;"></span></div>
-              <div class="stats-preview-chart__bar" data-day="Wed"><span style="height: 58%;"></span></div>
-              <div class="stats-preview-chart__bar" data-day="Thu"><span style="height: 72%;"></span></div>
-              <div class="stats-preview-chart__bar" data-day="Fri"><span style="height: 64%;"></span></div>
-              <div class="stats-preview-chart__bar" data-day="Sat"><span style="height: 45%;"></span></div>
-              <div class="stats-preview-chart__bar" data-day="Sun"><span style="height: 52%;"></span></div>
-              <div class="stats-preview-chart__bar" data-day="Mon"><span style="height: 67%;"></span></div>
-            </div>
+          <div class="stats-preview-chart-canvas-wrap" aria-hidden="true">
+            <canvas data-stats-modal-chart-canvas></canvas>
           </div>
           <p data-stats-chart-copy class="card__body">Weekly completion trend preview.</p>
         </div>

@@ -12,7 +12,7 @@
           <h3 class="card__title">Highest Daily Score</h3>
           <img src="./assets/icons/trophy.svg" alt="" aria-hidden="true" class="stat-card__icon" width="20" height="20" />
         </div>
-        <p class="card__value">78</p>
+        <p class="card__value" data-stat-highest-daily-value>0</p>
         <p class="stat-card__unit">percent</p>
       </article>
       <article data-stat-card="weekly-average" class="card card--metric stat-card stat-card--weekly-average">
@@ -20,7 +20,7 @@
           <h3 class="card__title">Weekly Average</h3>
           <img src="./assets/icons/calendar.svg" alt="" aria-hidden="true" class="stat-card__icon" width="20" height="20" />
         </div>
-        <p class="card__value">69</p>
+        <p class="card__value" data-stat-weekly-average-value>0</p>
         <p class="stat-card__unit">percent</p>
       </article>
       <article data-stat-card="monthly-average" class="card card--metric stat-card stat-card--monthly-average">
@@ -28,7 +28,7 @@
           <h3 class="card__title">Monthly Average</h3>
           <img src="./assets/icons/trending-up.svg" alt="" aria-hidden="true" class="stat-card__icon" width="20" height="20" />
         </div>
-        <p class="card__value">63</p>
+        <p class="card__value" data-stat-monthly-average-value>0</p>
         <p class="stat-card__unit">percent</p>
       </article>
       <article data-stat-card="all-time-average" class="card card--metric stat-card stat-card--all-time-average">
@@ -36,7 +36,7 @@
           <h3 class="card__title">All Time Average</h3>
           <img src="./assets/icons/infinity.svg" alt="" aria-hidden="true" class="stat-card__icon" width="20" height="20" />
         </div>
-        <p class="card__value">32</p>
+        <p class="card__value" data-stat-all-time-average-value>0</p>
         <p class="stat-card__unit">percent</p>
       </article>
     </div>
@@ -47,24 +47,21 @@
     <div data-stat-streak-grid class="metric-grid metric-grid--three stats-page__streak-grid">
       <article class="card card--metric stats-page__streak-card stats-page__streak-card--longest">
         <h3 class="card__title">Longest Streak</h3>
-        <p class="card__value">121</p>
+        <p class="card__value" data-stat-longest-streak-value>0</p>
         <p class="stat-card__unit">days</p>
       </article>
       <article class="card card--metric stats-page__streak-card stats-page__streak-card--habit">
         <h3 class="card__title">Individual Habit Streak</h3>
         <label for="habit-selector" class="form-field__label sr-only">Habit</label>
-        <select id="habit-selector" name="habit" class="form-field__select">
+        <select id="habit-selector" name="habit" class="form-field__select" data-stat-habit-selector>
           <option value="">Select a habit</option>
-          <option value="morning-meditation">Morning Meditation</option>
-          <option value="read">Read for 30 minutes</option>
-          <option value="exercise">Exercise</option>
         </select>
-        <p class="card__value">0</p>
+        <p class="card__value" data-stat-individual-streak-value>0</p>
         <p class="stat-card__unit">days</p>
       </article>
       <article class="card card--metric stats-page__streak-card stats-page__streak-card--current">
         <h3 class="card__title">Current Streak</h3>
-        <p class="card__value">121</p>
+        <p class="card__value" data-stat-current-streak-value>0</p>
         <p class="stat-card__unit">days</p>
       </article>
     </div>
@@ -82,23 +79,8 @@
 
       <div class="stats-page__chart-body">
         <h3 data-stat-chart-title class="card__title">Daily Performance</h3>
-        <div class="stats-page__chart-layout" aria-hidden="true">
-          <div class="stats-page__chart-axis">
-            <span>100</span>
-            <span>75</span>
-            <span>50</span>
-            <span>25</span>
-            <span>0</span>
-          </div>
-          <div class="stats-page__chart-bars">
-            <div class="stats-page__chart-bar" data-day="Tue"><span style="height: 78%;"></span></div>
-            <div class="stats-page__chart-bar" data-day="Wed"><span style="height: 69%;"></span></div>
-            <div class="stats-page__chart-bar" data-day="Thu"><span style="height: 63%;"></span></div>
-            <div class="stats-page__chart-bar" data-day="Fri"><span style="height: 60%;"></span></div>
-            <div class="stats-page__chart-bar" data-day="Sat"><span style="height: 58%;"></span></div>
-            <div class="stats-page__chart-bar" data-day="Sun"><span style="height: 61%;"></span></div>
-            <div class="stats-page__chart-bar stats-page__chart-bar--accent" data-day="Mon"><span style="height: 66%;"></span></div>
-          </div>
+        <div class="stats-page__chart-canvas-wrap" aria-hidden="true">
+          <canvas data-stat-chart-canvas></canvas>
         </div>
         <p data-stat-chart-copy class="card__body sr-only">The weekly tab stats will be shown here.</p>
       </div>

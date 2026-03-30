@@ -1,6 +1,6 @@
 <section id="home-view" data-page-view="home" class="page-view home-page" aria-labelledby="home-title">
   <header class="page-header home-page__header">
-    <h1 id="home-title" class="page-header__title">Good evening, test 🌱</h1>
+    <h1 id="home-title" class="page-header__title">Good evening 🌱</h1>
     <p data-home-date class="page-header__subtitle">Monday, March 2, 2026</p>
   </header>
 
@@ -14,10 +14,10 @@
             <h3 class="card__title">Today's Score</h3>
             <img src="./assets/icons/trending-up.svg" alt="" aria-hidden="true" class="home-metric__icon" width="18" height="18" />
           </div>
-          <p data-placeholder="daily-score-value" class="card__value">64%</p>
-          <p class="muted-copy card__meta">9 of 14 completed</p>
+          <p data-home-daily-score-value class="card__value">0%</p>
+          <p data-home-daily-score-meta class="muted-copy card__meta">0 of 0 completed</p>
           <div class="home-metric__progress" aria-hidden="true">
-            <span style="width: 69%;"></span>
+            <span data-home-daily-score-progress style="width: 0%;"></span>
           </div>
         </article>
 
@@ -26,32 +26,17 @@
             <h3 class="card__title">Current Streak</h3>
             <img src="./assets/icons/flame.svg" alt="" aria-hidden="true" class="home-metric__icon home-metric__icon--accent" width="18" height="18" />
           </div>
-          <p data-placeholder="streak-value" class="card__value">78</p>
+          <p data-home-streak-value class="card__value">0</p>
           <p class="home-metric__unit">days</p>
-          <p class="muted-copy card__meta">Best: 78 days</p>
+          <p data-home-best-streak class="muted-copy card__meta">Best: 0 days</p>
         </article>
       </div>
 
       <section aria-labelledby="home-weekly-chart-title" class="home-dashboard__weekly">
         <article data-placeholder="weekly-chart" class="card card--interactive weekly-chart" data-open-modal="stats-preview" role="button" tabindex="0" aria-label="Open statistics preview from this week chart">
           <h3 id="home-weekly-chart-title" class="home-dashboard__section-title">This Week</h3>
-          <div class="weekly-chart__layout" aria-hidden="true">
-            <div class="weekly-chart__axis">
-              <span>100</span>
-              <span>75</span>
-              <span>50</span>
-              <span>25</span>
-              <span>0</span>
-            </div>
-            <div class="weekly-chart__bars">
-              <div class="weekly-chart__bar" data-day="Tue"><span style="height: 75%;"></span></div>
-              <div class="weekly-chart__bar" data-day="Wed"><span style="height: 75%;"></span></div>
-              <div class="weekly-chart__bar" data-day="Thu"><span style="height: 75%;"></span></div>
-              <div class="weekly-chart__bar" data-day="Fri"><span style="height: 66%;"></span></div>
-              <div class="weekly-chart__bar" data-day="Sat"><span style="height: 61%;"></span></div>
-              <div class="weekly-chart__bar" data-day="Sun"><span style="height: 61%;"></span></div>
-              <div class="weekly-chart__bar weekly-chart__bar--accent" data-day="Mon"><span style="height: 64%;"></span></div>
-            </div>
+          <div class="home-weekly-chart-canvas-wrap" aria-hidden="true">
+            <canvas data-home-weekly-chart-canvas></canvas>
           </div>
         </article>
       </section>
@@ -60,44 +45,14 @@
     <section aria-labelledby="home-trackers-title" class="home-trackers home-page__trackers">
       <h2 id="home-trackers-title" class="sr-only">Trackers</h2>
       <div data-home-trackers-grid class="tracker-grid tracker-grid--stack">
-        <article data-tracker="habits" class="card tracker-card tracker-card--habits">
+        <article data-tracker="habits" class="card tracker-card tracker-card--habits is-empty-active">
           <h3 class="tracker-card__title">Habits</h3>
-          <div class="tracker-card__empty" data-tracker-empty="habit" hidden>
+          <div class="tracker-card__empty" data-tracker-empty="habit">
             <img src="./assets/illustrations/empty-state-no-habits.svg" alt="No active habits" class="tracker-card__empty-illustration" width="180" height="180" />
             <p class="tracker-card__empty-title">No active habits yet</p>
             <p class="tracker-card__empty-copy">Start your growth journey</p>
           </div>
-          <ul class="tracker-card__list" data-tracker-list="habit" aria-label="Habit items">
-            <li class="tracker-card__item">
-              <button type="button" class="tracker-card__check tracker-card__check-button" data-check-toggle="habit" aria-label="Toggle habit completion" aria-pressed="false"></button>
-              <span class="tracker-card__text">Write in journal</span>
-              <span class="tracker-card__tag"><img src="./assets/decorations/leaf-botanical.svg" alt="" aria-hidden="true" width="12" height="12" /> 7d</span>
-            </li>
-            <li class="tracker-card__item">
-              <button type="button" class="tracker-card__check tracker-card__check-button" data-check-toggle="habit" aria-label="Toggle habit completion" aria-pressed="false"></button>
-              <span class="tracker-card__text">Call a friend or family</span>
-            </li>
-            <li class="tracker-card__item is-done">
-              <button type="button" class="tracker-card__check tracker-card__check-button" data-check-toggle="habit" aria-label="Toggle habit completion" aria-pressed="true"></button>
-              <span class="tracker-card__text">Morning Meditation</span>
-              <span class="tracker-card__tag"><img src="./assets/decorations/leaf-botanical.svg" alt="" aria-hidden="true" width="12" height="12" /> 67d</span>
-            </li>
-            <li class="tracker-card__item is-done">
-              <button type="button" class="tracker-card__check tracker-card__check-button" data-check-toggle="habit" aria-label="Toggle habit completion" aria-pressed="true"></button>
-              <span class="tracker-card__text">Read for 30 minutes</span>
-              <span class="tracker-card__tag"><img src="./assets/decorations/leaf-botanical.svg" alt="" aria-hidden="true" width="12" height="12" /> 8d</span>
-            </li>
-            <li class="tracker-card__item is-done">
-              <button type="button" class="tracker-card__check tracker-card__check-button" data-check-toggle="habit" aria-label="Toggle habit completion" aria-pressed="true"></button>
-              <span class="tracker-card__text">Exercise</span>
-              <span class="tracker-card__tag"><img src="./assets/decorations/leaf-botanical.svg" alt="" aria-hidden="true" width="12" height="12" /> 12d</span>
-            </li>
-            <li class="tracker-card__item is-done">
-              <button type="button" class="tracker-card__check tracker-card__check-button" data-check-toggle="habit" aria-label="Toggle habit completion" aria-pressed="true"></button>
-              <span class="tracker-card__text">Drink 8 glasses of water</span>
-              <span class="tracker-card__tag"><img src="./assets/decorations/leaf-botanical.svg" alt="" aria-hidden="true" width="12" height="12" /> 9d</span>
-            </li>
-          </ul>
+          <ul class="tracker-card__list" data-tracker-list="habit" aria-label="Habit items"></ul>
           <div class="tracker-card__actions">
             <button type="button" class="tracker-card__action" data-open-modal="quick-add" data-quick-add-tab="habit">
               <img src="./assets/icons/plus.svg" alt="" aria-hidden="true" class="tracker-card__action-icon" width="16" height="16" />
@@ -110,42 +65,20 @@
           </div>
         </article>
 
-        <article data-tracker="todos" class="card tracker-card tracker-card--todos">
+        <article data-tracker="todos" class="card tracker-card tracker-card--todos is-empty-visible">
           <h3 class="tracker-card__title">Todos Due Today</h3>
-          <div class="tracker-card__empty" data-tracker-empty="todo" hidden>
+          <div class="tracker-card__empty" data-tracker-empty="todo">
             <img src="./assets/illustrations/empty-state-no-todos.svg" alt="No todos due today" class="tracker-card__empty-illustration" width="180" height="180" />
             <p class="tracker-card__empty-title">No todos due today</p>
             <p class="tracker-card__empty-copy">You are all caught up.</p>
           </div>
-          <ul class="tracker-card__list" data-tracker-list="todo" aria-label="Todo items due today">
-            <li class="tracker-card__item">
-              <button type="button" class="tracker-card__check tracker-card__check--todo tracker-card__check-button" data-check-toggle="todo" aria-label="Toggle todo completion" aria-pressed="false"></button>
-              <span class="tracker-card__content">
-                <span class="tracker-card__text">Review team meeting notes</span>
-                <span class="tracker-card__meta">Due: 3/2/2026</span>
-              </span>
-            </li>
-            <li class="tracker-card__item">
-              <button type="button" class="tracker-card__check tracker-card__check--todo tracker-card__check-button" data-check-toggle="todo" aria-label="Toggle todo completion" aria-pressed="false"></button>
-              <span class="tracker-card__content">
-                <span class="tracker-card__text">Submit expense report</span>
-                <span class="tracker-card__meta">Due: 3/2/2026</span>
-              </span>
-            </li>
-            <li class="tracker-card__item">
-              <button type="button" class="tracker-card__check tracker-card__check--todo tracker-card__check-button" data-check-toggle="todo" aria-label="Toggle todo completion" aria-pressed="false"></button>
-              <span class="tracker-card__content">
-                <span class="tracker-card__text">Call Mom</span>
-                <span class="tracker-card__meta">Due: 3/2/2026</span>
-              </span>
-            </li>
-          </ul>
+          <ul class="tracker-card__list" data-tracker-list="todo" aria-label="Todo items due today"></ul>
           <div class="tracker-card__actions">
             <button type="button" class="tracker-card__action tracker-card__action--todo" data-open-modal="quick-add" data-quick-add-tab="todo">
               <img src="./assets/icons/plus.svg" alt="" aria-hidden="true" class="tracker-card__action-icon" width="16" height="16" />
               Add
             </button>
-            <a class="tracker-card__manage-link" href="#page=manage">
+            <a class="tracker-card__manage-link" href="#page=manage&manageMode=todos">
               Manage Todos
               <img src="./assets/icons/arrow-right.svg" alt="" aria-hidden="true" class="tracker-card__manage-link-icon" width="12" height="12" />
             </a>
@@ -161,5 +94,4 @@
       <span class="sr-only">Quick Add Habit</span>
     </button>
   </section>
-
 </section>

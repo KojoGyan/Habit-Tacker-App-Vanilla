@@ -1,0 +1,33 @@
+<section class="modal modal--edit-item" aria-hidden="false">
+  <div class="modal__backdrop" data-modal-backdrop="true"></div>
+
+  <div class="modal__panel modal__panel--edit" role="dialog" aria-modal="true" aria-labelledby="edit-habit-title">
+    <div class="modal__header modal__header--split">
+      <h2 id="edit-habit-title" class="modal__title">Edit Habit</h2>
+      <button type="button" class="modal__close" data-modal-close aria-label="Close edit habit dialog">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    <form class="modal__body modal-form" data-edit-habit-form>
+      <div class="form-field">
+        <label for="edit-habit-name" class="form-field__label">Habit name</label>
+        <input id="edit-habit-name" type="text" name="name" data-edit-habit-input required class="form-field__input" />
+        <p data-edit-habit-error class="form-field__error" hidden>Please enter a habit name.</p>
+      </div>
+
+      <div class="form-field form-field--frequency">
+        <label class="form-field__label">Frequency</label>
+        <div class="segmented-control segmented-control--frequency">
+          <button type="button" data-edit-habit-frequency-button="daily" aria-pressed="true" class="segmented-control__button segmented-control__button--frequency">Daily</button>
+          <button type="button" data-edit-habit-frequency-button="weekly" aria-pressed="false" class="segmented-control__button segmented-control__button--frequency">Weekly</button>
+        </div>
+      </div>
+
+      <div class="modal__footer dialog-actions">
+        <button type="button" class="dialog-actions__button dialog-actions__button--secondary" data-modal-close>Cancel</button>
+        <button type="submit" class="dialog-actions__button dialog-actions__button--primary">Save changes</button>
+      </div>
+    </form>
+  </div>
+</section>

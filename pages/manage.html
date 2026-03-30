@@ -15,12 +15,12 @@
   <section aria-labelledby="manage-filter-title" class="manage-page__filter-section" data-manage-todo-only hidden>
     <h2 id="manage-filter-title" class="sr-only">Filters and Search</h2>
     <div data-manage-filters role="tablist" class="segmented-control segmented-control--wrap manage-page__filter-tabs" aria-label="Todo filters">
-      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="true" data-todo-filter="inbox"><img src="./assets/icons/inbox.svg" alt="" aria-hidden="true" class="manage-page__filter-icon" width="16" height="16" />Inbox (5)</button>
-      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="all">All (23)</button>
-      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="today"><img src="./assets/icons/calendar.svg" alt="" aria-hidden="true" class="manage-page__filter-icon" width="16" height="16" />Due Today (3)</button>
-      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="upcoming"><img src="./assets/icons/clock.svg" alt="" aria-hidden="true" class="manage-page__filter-icon" width="16" height="16" />Upcoming (8)</button>
-      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="overdue">Overdue (2)</button>
-      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="completed"><img src="./assets/icons/check-circle-2.svg" alt="" aria-hidden="true" class="manage-page__filter-icon" width="16" height="16" />Completed (5)</button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="true" data-todo-filter="inbox"><img src="./assets/icons/inbox.svg" alt="" aria-hidden="true" class="manage-page__filter-icon" width="16" height="16" />Inbox <span data-filter-count="inbox">(0)</span></button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="all">All <span data-filter-count="all">(0)</span></button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="today"><img src="./assets/icons/calendar.svg" alt="" aria-hidden="true" class="manage-page__filter-icon" width="16" height="16" />Due Today <span data-filter-count="today">(0)</span></button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="upcoming"><img src="./assets/icons/clock.svg" alt="" aria-hidden="true" class="manage-page__filter-icon" width="16" height="16" />Upcoming <span data-filter-count="upcoming">(0)</span></button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="overdue">Overdue <span data-filter-count="overdue">(0)</span></button>
+      <button type="button" role="tab" class="segmented-control__button segmented-control__button--filter" aria-selected="false" data-todo-filter="completed"><img src="./assets/icons/check-circle-2.svg" alt="" aria-hidden="true" class="manage-page__filter-icon" width="16" height="16" />Completed <span data-filter-count="completed">(0)</span></button>
     </div>
     <div class="manage-page__toolbar manage-page__toolbar--todo">
       <form data-manage-search-form="todo" class="search-form manage-search-form manage-page__search-form">
@@ -55,147 +55,16 @@
     </div>
     <p data-manage-search-feedback="habit" class="muted-copy search-form__feedback" hidden></p>
 
-    <div class="manage-page__habit-grid" data-manage-list-placeholder>
-      <article class="manage-habit-card">
-        <div class="manage-habit-card__head">
-          <h3 class="manage-habit-card__title">Morning Meditation</h3>
-        </div>
-        <div class="manage-habit-card__meta">
-          <span class="manage-chip">Daily</span>
-          <span class="manage-chip manage-chip--streak"><img src="./assets/decorations/leaf-botanical.svg" alt="" aria-hidden="true" width="12" height="12" /> 69d streak</span>
-        </div>
-        <div class="manage-habit-card__footer">
-          <label class="toggle-row" for="habit-active-1"><span>Active</span><input id="habit-active-1" class="manage-toggle" type="checkbox" checked /></label>
-          <div class="manage-habit-card__actions">
-            <button type="button" class="manage-icon-button" aria-label="Edit morning Meditation"><img src="./assets/icons/pencil.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-            <button type="button" class="manage-icon-button" aria-label="Delete morning Meditation" data-open-modal="confirm-delete" data-delete-item-type="habit" data-delete-item-name="Morning Meditation"><img src="./assets/icons/trash-2.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-          </div>
-        </div>
-      </article>
-      <article class="manage-habit-card">
-        <div class="manage-habit-card__head">
-          <h3 class="manage-habit-card__title">Read for 30 minutes</h3>
-        </div>
-        <div class="manage-habit-card__meta">
-          <span class="manage-chip">Daily</span>
-          <span class="manage-chip manage-chip--streak"><img src="./assets/decorations/leaf-botanical.svg" alt="" aria-hidden="true" width="12" height="12" /> 16d streak</span>
-        </div>
-        <div class="manage-habit-card__footer">
-          <label class="toggle-row" for="habit-active-2"><span>Active</span><input id="habit-active-2" class="manage-toggle" type="checkbox" checked /></label>
-          <div class="manage-habit-card__actions">
-            <button type="button" class="manage-icon-button" aria-label="Edit Read for 30 minutes"><img src="./assets/icons/pencil.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-            <button type="button" class="manage-icon-button" aria-label="Delete Read for 30 minutes" data-open-modal="confirm-delete" data-delete-item-type="habit" data-delete-item-name="Read for 30 minutes"><img src="./assets/icons/trash-2.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-          </div>
-        </div>
-      </article>
-      <article class="manage-habit-card">
-        <div class="manage-habit-card__head">
-          <h3 class="manage-habit-card__title">Exercise</h3>
-        </div>
-        <div class="manage-habit-card__meta">
-          <span class="manage-chip">Daily</span>
-          <span class="manage-chip manage-chip--streak"><img src="./assets/decorations/leaf-botanical.svg" alt="" aria-hidden="true" width="12" height="12" /> 8d streak</span>
-        </div>
-        <div class="manage-habit-card__footer">
-          <label class="toggle-row" for="habit-active-3"><span>Active</span><input id="habit-active-3" class="manage-toggle" type="checkbox" checked /></label>
-          <div class="manage-habit-card__actions">
-            <button type="button" class="manage-icon-button" aria-label="Edit Exercise"><img src="./assets/icons/pencil.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-            <button type="button" class="manage-icon-button" aria-label="Delete Exercise" data-open-modal="confirm-delete" data-delete-item-type="habit" data-delete-item-name="Exercise"><img src="./assets/icons/trash-2.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-          </div>
-        </div>
-      </article>
-      <article class="manage-habit-card">
-        <div class="manage-habit-card__head">
-          <h3 class="manage-habit-card__title">Drink 8 glasses of water</h3>
-        </div>
-        <div class="manage-habit-card__meta">
-          <span class="manage-chip">Daily</span>
-          <span class="manage-chip manage-chip--streak"><img src="./assets/decorations/leaf-botanical.svg" alt="" aria-hidden="true" width="12" height="12" /> 7d streak</span>
-        </div>
-        <div class="manage-habit-card__footer">
-          <label class="toggle-row" for="habit-active-4"><span>Active</span><input id="habit-active-4" class="manage-toggle" type="checkbox" checked /></label>
-          <div class="manage-habit-card__actions">
-            <button type="button" class="manage-icon-button" aria-label="Edit Drink 8 glasses of water"><img src="./assets/icons/pencil.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-            <button type="button" class="manage-icon-button" aria-label="Delete Drink 8 glasses of water" data-open-modal="confirm-delete" data-delete-item-type="habit" data-delete-item-name="Drink 8 glasses of water"><img src="./assets/icons/trash-2.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-          </div>
-        </div>
-      </article>
-      <article class="manage-habit-card">
-        <div class="manage-habit-card__head">
-          <h3 class="manage-habit-card__title">Write in journal</h3>
-        </div>
-        <div class="manage-habit-card__meta">
-          <span class="manage-chip">Daily</span>
-          <span class="manage-chip manage-chip--streak"><img src="./assets/decorations/leaf-botanical.svg" alt="" aria-hidden="true" width="12" height="12" /> 7d streak</span>
-        </div>
-        <div class="manage-habit-card__footer">
-          <label class="toggle-row" for="habit-active-5"><span>Active</span><input id="habit-active-5" class="manage-toggle" type="checkbox" checked /></label>
-          <div class="manage-habit-card__actions">
-            <button type="button" class="manage-icon-button" aria-label="Edit Write in journal"><img src="./assets/icons/pencil.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-            <button type="button" class="manage-icon-button" aria-label="Delete Write in journal" data-open-modal="confirm-delete" data-delete-item-type="habit" data-delete-item-name="Write in journal"><img src="./assets/icons/trash-2.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-          </div>
-        </div>
-      </article>
-      <article class="manage-habit-card">
-        <div class="manage-habit-card__head">
-          <h3 class="manage-habit-card__title">Practice guitar</h3>
-        </div>
-        <div class="manage-habit-card__meta">
-          <span class="manage-chip">Daily</span>
-          <span class="manage-chip manage-chip--streak"><img src="./assets/decorations/leaf-botanical.svg" alt="" aria-hidden="true" width="12" height="12" /> 1d streak</span>
-        </div>
-        <div class="manage-habit-card__footer">
-          <label class="toggle-row" for="habit-active-6"><span>Active</span><input id="habit-active-6" class="manage-toggle" type="checkbox" checked /></label>
-          <div class="manage-habit-card__actions">
-            <button type="button" class="manage-icon-button" aria-label="Edit Practice guitar"><img src="./assets/icons/pencil.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-            <button type="button" class="manage-icon-button" aria-label="Delete Practice guitar" data-open-modal="confirm-delete" data-delete-item-type="habit" data-delete-item-name="Practice guitar"><img src="./assets/icons/trash-2.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-          </div>
-        </div>
-      </article>
-    </div>
+    <div class="manage-page__habit-grid" data-manage-habits-list></div>
+    <p class="muted-copy" data-manage-habits-empty hidden>No habits match this view yet.</p>
   </section>
 
   <section aria-labelledby="manage-todos-title" class="manage-page__section manage-page__section--todos" data-manage-section="todos" hidden>
     <h2 id="manage-todos-title" class="sr-only">Todos</h2>
-    <div class="manage-page__todo-list" data-manage-list-placeholder>
+    <div class="manage-page__todo-list" data-manage-todos-list>
       <h3 data-todo-filter-title class="sr-only">Inbox Todos</h3>
       <p data-todo-filter-copy class="sr-only">Todo rows for inbox items will be shown here.</p>
-
-      <article class="manage-todo-row">
-        <button type="button" class="manage-item-check manage-item-check--todo" data-check-toggle="todo" aria-label="Toggle todo completion" aria-pressed="false"></button>
-        <p class="manage-todo-row__text">Organize photo library</p>
-        <div class="manage-todo-row__actions">
-          <button type="button" class="manage-icon-button" aria-label="Edit Organize photo library"><img src="./assets/icons/pencil.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-          <button type="button" class="manage-icon-button" aria-label="Delete Organize photo library"><img src="./assets/icons/trash-2.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-        </div>
-      </article>
-
-      <article class="manage-todo-row">
-        <button type="button" class="manage-item-check manage-item-check--todo" data-check-toggle="todo" aria-label="Toggle todo completion" aria-pressed="false"></button>
-        <p class="manage-todo-row__text">Research new productivity apps</p>
-        <div class="manage-todo-row__actions">
-          <button type="button" class="manage-icon-button" aria-label="Edit Research new productivity apps"><img src="./assets/icons/pencil.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-          <button type="button" class="manage-icon-button" aria-label="Delete Research new productivity apps"><img src="./assets/icons/trash-2.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-        </div>
-      </article>
-
-      <article class="manage-todo-row">
-        <button type="button" class="manage-item-check manage-item-check--todo" data-check-toggle="todo" aria-label="Toggle todo completion" aria-pressed="false"></button>
-        <p class="manage-todo-row__text">Read that article on habits</p>
-        <div class="manage-todo-row__actions">
-          <button type="button" class="manage-icon-button" aria-label="Edit Read that article on habits"><img src="./assets/icons/pencil.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-          <button type="button" class="manage-icon-button" aria-label="Delete Read that article on habits"><img src="./assets/icons/trash-2.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-        </div>
-      </article>
-
-      <article class="manage-todo-row">
-        <button type="button" class="manage-item-check manage-item-check--todo" data-check-toggle="todo" aria-label="Toggle todo completion" aria-pressed="false"></button>
-        <p class="manage-todo-row__text">Learn a new recipe</p>
-        <div class="manage-todo-row__actions">
-          <button type="button" class="manage-icon-button" aria-label="Edit Learn a new recipe"><img src="./assets/icons/pencil.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-          <button type="button" class="manage-icon-button" aria-label="Delete Learn a new recipe"><img src="./assets/icons/trash-2.svg" alt="" aria-hidden="true" width="16" height="16" /></button>
-        </div>
-      </article>
     </div>
+    <p class="muted-copy" data-manage-todos-empty hidden>No todos match this view yet.</p>
   </section>
 </section>
